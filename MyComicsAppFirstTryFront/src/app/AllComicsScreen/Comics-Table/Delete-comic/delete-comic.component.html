@@ -1,0 +1,13 @@
+<div class="delete-btn-container">
+  <button class="delete-btn" (click)="toggleConfirm()">
+    <svg viewBox="0 0 448 512" class="trash-icon">
+      <path fill="currentColor"
+            d="M268 416h24c13.3 0 24-10.7 24-24V200c0-13.3-10.7-24-24-24h-24c-13.3 0-24 10.7-24 24v192c0 13.3 10.7 24 24 24zm-96 0h24c13.3 0 24-10.7 24-24V200c0-13.3-10.7-24-24-24h-24c-13.3 0-24 10.7-24 24v192c0 13.3 10.7 24 24 24zm228-336h-88l-34-56c-5.9-9.6-16.1-16-28-16H146c-11.9 0-22.1 6.4-28 16l-34 56H0c-17.7 0-32 14.3-32 32v32c0 8.8 7.2 16 16 16h416c8.8 0 16-7.2 16-16V112c0-17.7-14.3-32-32-32z" />
+    </svg>
+    <span class="text">Trash this</span>
+  </button>
+  <div class="confirm-container" *ngIf="showConfirm">
+    <button class="confirm-btn" (click)="confirmDelete()">Confirm</button>
+    <button class="cancel-btn" (click)="cancelDelete()">Cancel</button>
+  </div>
+</div>

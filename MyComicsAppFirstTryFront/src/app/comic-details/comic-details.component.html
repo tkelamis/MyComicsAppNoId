@@ -1,0 +1,33 @@
+<div *ngIf="action === 'details'" style="width:80%; display:flex; flex-direction:column; padding:80px; justify-content:center; align-items:center; margin:0 auto">
+  <h3>Comics Details</h3>
+  <form [formGroup]="myReactiveForm" style="width:50%;display:flex; flex-direction:column; padding:80px; justify-content:center; margin:0 auto">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Title</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="Title" [readonly]="disabledInputs">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Pages</label>
+      <input class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="Pages" [readonly]="disabledInputs">
+    </div>
+    <button style="margin-top:30px" type="button" class="btn btn-primary" [routerLink]="['/comic']">Back to Home</button>
+  </form>
+</div>
+
+<div *ngIf="action == 'edit'" style="width:80%; display:flex; flex-direction:column; padding:80px; justify-content:center; align-items:center; margin:0 auto">
+  <h3>Comics Informations</h3>
+  <form [formGroup]="myReactiveForm" style="width:50%;display:flex; flex-direction:column; padding:80px; justify-content:center; margin:0 auto">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Title</label>
+      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="Title" [readonly]="!disabledInputs">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Pages</label>
+      <input class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="Pages" [readonly]="!disabledInputs">
+    </div>
+    <button style="margin-top:30px" type="submit" class="btn btn-primary">Submit</button>
+    <button style="margin-top:30px" type="button" class="btn btn-primary" [routerLink]="['/comic']">Back to Home</button>
+  </form>
+</div>
+
+
+

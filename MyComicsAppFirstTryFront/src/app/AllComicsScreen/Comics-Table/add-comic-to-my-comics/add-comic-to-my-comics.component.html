@@ -1,0 +1,13 @@
+<div class="add-btn-container">
+  <button class="add-btn" (click)="toggleAddConfirm()">
+    <svg viewBox="0 0 448 512" class="add-icon">
+      <path fill="currentColor"
+            d="M224 80c13.3 0 24 10.7 24 24v96h96c13.3 0 24 10.7 24 24v24c0 13.3-10.7 24-24 24h-96v96c0 13.3-10.7 24-24 24h-24c-13.3 0-24-10.7-24-24v-96H80c-13.3 0-24-10.7-24-24v-24c0-13.3 10.7-24 24-24h96v-96c0-13.3 10.7-24 24-24h24z" />
+    </svg>
+    <span class="text">Add Item</span>
+  </button>
+  <div class="confirm-container" *ngIf="showAddConfirm">
+    <button class="confirm-btn" (click)="confirmAdd()">Confirm</button>
+    <button class="cancel-btn" (click)="cancelAdd()">Cancel</button>
+  </div>
+</div>

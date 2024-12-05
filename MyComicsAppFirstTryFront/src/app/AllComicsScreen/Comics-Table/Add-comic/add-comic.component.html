@@ -1,0 +1,16 @@
+<div class="container">
+  <h3>Comics Details</h3>
+  <form [formGroup]="myReactiveForm" style="width:50%;display:flex; flex-direction:column; padding:80px; justify-content:center; margin:0 auto">
+    <div>
+      <label for="exampleInputEmail1">Title</label>
+      <input class="form-control"  placeholder="Title" formControlName="Title" >
+    </div>
+    <div>
+      <label for="exampleInputPassword1">Pages</label>
+      <input class="form-control" placeholder="Pages" formControlName="Pages" >
+    </div>
+    <button style="margin-top:30px" type="submit" class="btn btn-primary" (click)="registerComicToBackEnd()">Submit</button>
+    <button style="margin-top:30px" type="button" class="btn btn-primary" [routerLink]="['/comic_list']">Back to Home</button>
+
+  </form>
+</div>
