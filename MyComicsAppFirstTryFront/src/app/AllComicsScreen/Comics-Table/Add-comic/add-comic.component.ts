@@ -39,6 +39,15 @@ export class AddComicComponent implements OnInit {
     
   }
 
+  setComicFromFormValues(): Comic {
+    if (this.myReactiveForm.value) {
+      const valuesPassedFromFields = this.myReactiveForm.value;
+      this.comic.title = valuesPassedFromFields.Title;
+      this.comic.pages = valuesPassedFromFields.Pages;
+    }
+    return this.comic;
+  }
+
   sendComicToBackEnd(comicToSend: Comic): void {
     this.comicService.postComicToBackEnd(comicToSend).subscribe(
       (response: HttpResponse<Comic>) => {
@@ -60,12 +69,5 @@ export class AddComicComponent implements OnInit {
     );
   }
 
-  setComicFromFormValues(): Comic {
-    if (this.myReactiveForm.value) {
-      const valuesPassedFromFields = this.myReactiveForm.value;
-      this.comic.title = valuesPassedFromFields.Title;
-      this.comic.pages = valuesPassedFromFields.Pages;
-    }
-    return this.comic;
-  }
+  
 }

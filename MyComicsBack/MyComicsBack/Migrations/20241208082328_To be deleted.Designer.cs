@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyComicsBack.Data;
 
@@ -10,9 +11,11 @@ using MyComicsBack.Data;
 namespace MyComicsBack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208082328_To be deleted")]
+    partial class Tobedeleted
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,29 +82,6 @@ namespace MyComicsBack.Migrations
                     b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "keajvn",
-                            Password = "sbkonfos",
-                            UserRoleId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "dfbdfb",
-                            Password = "345",
-                            UserRoleId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "despoina",
-                            Password = "3463",
-                            UserRoleId = 1
-                        });
                 });
 
             modelBuilder.Entity("MyComicsBack.Models.UserRole", b =>
@@ -112,9 +92,8 @@ namespace MyComicsBack.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("RoleType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -124,12 +103,12 @@ namespace MyComicsBack.Migrations
                         new
                         {
                             Id = 1,
-                            RoleType = "Admin"
+                            Role = 0
                         },
                         new
                         {
                             Id = 2,
-                            RoleType = "User"
+                            Role = 1
                         });
                 });
 

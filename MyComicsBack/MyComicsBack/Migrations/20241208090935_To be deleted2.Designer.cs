@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyComicsBack.Data;
 
@@ -10,9 +11,11 @@ using MyComicsBack.Data;
 namespace MyComicsBack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208090935_To be deleted2")]
+    partial class Tobedeleted2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,12 +74,7 @@ namespace MyComicsBack.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserRoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserRoleId");
 
                     b.ToTable("Users");
 
@@ -84,23 +82,14 @@ namespace MyComicsBack.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "keajvn",
-                            Password = "sbkonfos",
-                            UserRoleId = 1
+                            Email = "kelamis62",
+                            Password = "124654"
                         },
                         new
                         {
                             Id = 2,
-                            Email = "dfbdfb",
-                            Password = "345",
-                            UserRoleId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "despoina",
-                            Password = "3463",
-                            UserRoleId = 1
+                            Email = "kelamis21",
+                            Password = "edfvdf"
                         });
                 });
 
@@ -133,20 +122,34 @@ namespace MyComicsBack.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MyComicsBack.Models.User", b =>
+            modelBuilder.Entity("UserUserRole", b =>
                 {
-                    b.HasOne("MyComicsBack.Models.UserRole", "UserRole")
-                        .WithMany("Users")
-                        .HasForeignKey("UserRoleId")
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersRolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UsersId", "UsersRolesId");
+
+                    b.HasIndex("UsersRolesId");
+
+                    b.ToTable("UserUserRole");
+                });
+
+            modelBuilder.Entity("UserUserRole", b =>
+                {
+                    b.HasOne("MyComicsBack.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("UserRole");
-                });
-
-            modelBuilder.Entity("MyComicsBack.Models.UserRole", b =>
-                {
-                    b.Navigation("Users");
+                    b.HasOne("MyComicsBack.Models.UserRole", null)
+                        .WithMany()
+                        .HasForeignKey("UsersRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

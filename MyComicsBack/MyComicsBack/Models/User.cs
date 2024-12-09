@@ -1,4 +1,7 @@
-﻿namespace MyComicsBack.Models
+﻿using MyComicsBack.Models;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MyComicsBack.Models
 {
     public class User
     {
@@ -8,6 +11,9 @@
 
         public string Password { get; set; }
 
-        public UserRole Role { get; set; }
+        [ForeignKey(nameof(UserRole))]
+        public int UserRoleId { get; set; }
+
+        public UserRole UserRole{ get; set; }
     }
 }

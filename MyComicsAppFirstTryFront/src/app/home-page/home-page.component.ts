@@ -16,12 +16,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HomePageComponent {
 
   userToSend: User = {};
-  roles: string[] = [];
 ;
 
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
     Password: [''],
+    UserRole: []
   })
 
   constructor(private formBuilder: FormBuilder,
@@ -39,7 +39,12 @@ export class HomePageComponent {
     this.sendUserToBackEnd(userToRegister);
   }
 
-  
+  SetUserDataToSendFromForm(): User {
+    this.userToSend.email = this.myReactiveForm.value.Email;
+    this.userToSend.password = this.myReactiveForm.value.Password;
+    this.userToSend.role = this.myReactiveForm.value.UserRole;
+    return this.userToSend;
+  }
 
   sendUserToBackEnd(userToRegister: User): void {
     this.userService.postUserDataToBackEnd(userToRegister).subscribe(
@@ -62,11 +67,7 @@ export class HomePageComponent {
     );
   }
 
-  SetUserDataToSendFromForm(): User {
-    this.userToSend.email = this.myReactiveForm.value.Email;
-    this.userToSend.password = this.myReactiveForm.value.Password;
-    return this.userToSend;
-  }
+  
 
   /*logOut(): void {
     this.userService.logout();

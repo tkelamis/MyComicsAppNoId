@@ -3,12 +3,7 @@
     public class UserRole
     {
         public int Id { get; set; }
-        public RoleType Role { get; set; }
-    }
-
-    public enum RoleType
-    {
-        Admin,
-        User
+        public string RoleType { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

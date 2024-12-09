@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyComicsBack.Data;
 
@@ -10,9 +11,11 @@ using MyComicsBack.Data;
 namespace MyComicsBack.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208092441_UserRoleOneToManWithDataAdjustment")]
+    partial class UserRoleOneToManWithDataAdjustment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,13 +97,6 @@ namespace MyComicsBack.Migrations
                             Email = "dfbdfb",
                             Password = "345",
                             UserRoleId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "despoina",
-                            Password = "3463",
-                            UserRoleId = 1
                         });
                 });
 

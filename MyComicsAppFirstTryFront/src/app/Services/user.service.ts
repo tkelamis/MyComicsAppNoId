@@ -11,7 +11,7 @@ import { DecodedToken } from '../Shared/Models/Decoded_Token';
 })
 export class UserService {
 
-  private apiGetUrl = 'https://localhost:7206/api/Comic';
+  private apiGetUrl = 'https://localhost:7206/api/User';
   user?: User;
 
   constructor(private httpService: HttpClient) { }
