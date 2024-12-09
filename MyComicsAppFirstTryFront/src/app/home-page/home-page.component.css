@@ -35,3 +35,18 @@ body, html {
     background-color:darkred !important;
 
 }
+
+.simplePConfig {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.btn {
+  --bs-btn-font-size: 1.25rem;
+}
+
+.form-group {
+    padding-bottom: 1rem;
+}
+
+

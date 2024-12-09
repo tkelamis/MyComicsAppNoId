@@ -16,12 +16,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class HomePageComponent {
 
   userToSend: User = {};
-;
+  signUpFlag: boolean = false;
+  logInFlag: boolean = false;
 
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
     Password: [''],
-    UserRole: []
+    UserRole: ['']
   })
 
   constructor(private formBuilder: FormBuilder,
@@ -30,20 +31,6 @@ export class HomePageComponent {
 
   ngOnInit(): void {
 
-  }
-
-  registerUserToBackEnd(): void {
-
-    const userToRegister = this.SetUserDataToSendFromForm();
-
-    this.sendUserToBackEnd(userToRegister);
-  }
-
-  SetUserDataToSendFromForm(): User {
-    this.userToSend.email = this.myReactiveForm.value.Email;
-    this.userToSend.password = this.myReactiveForm.value.Password;
-    this.userToSend.role = this.myReactiveForm.value.UserRole;
-    return this.userToSend;
   }
 
   sendUserToBackEnd(userToRegister: User): void {
@@ -65,6 +52,33 @@ export class HomePageComponent {
         });
       }
     );
+  }
+
+  registerUserToBackEnd(): void {
+
+    const userToRegister = this.SetUserDataToSendFromForm();
+
+    this.sendUserToBackEnd(userToRegister);
+  }
+
+  SetUserDataToSendFromForm(): User {
+    this.userToSend.email = this.myReactiveForm.value.Email;
+    this.userToSend.password = this.myReactiveForm.value.Password;
+    this.userToSend.role = this.myReactiveForm.value.UserRole;
+    return this.userToSend;
+  }
+
+
+
+  setSignUp(): void {
+    this.signUpFlag = true;
+  }
+  setLogIn(): void {
+    this.logInFlag = true;
+  }
+  resetSingUpLoginFlag(): void {
+    this.signUpFlag = false;
+    this.logInFlag = false;
   }
 
   
