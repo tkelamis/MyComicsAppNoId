@@ -22,7 +22,9 @@ export class HomePageComponent {
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
     Password: [''],
-    UserRole: ['']
+    UserRole: [''],
+    isAdminChecked: [false, Validators.required],
+    isUserChecked: [false, Validators.required]
   })
 
   constructor(private formBuilder: FormBuilder,
@@ -34,7 +36,9 @@ export class HomePageComponent {
   }
 
   sendUserToBackEnd(userToRegister: User): void {
-    this.userService.postUserDataToBackEnd(userToRegister).subscribe(
+    userToRegister.role = this.setUserRole();
+    console.log(userToRegister);
+    /*this.userService.postUserDataToBackEnd(userToRegister).subscribe(
       (response: HttpResponse<User>) => {
         if (response.status === 201) {
           this.snackBar.open(`User sended successfully!`, 'Close', {
@@ -51,7 +55,7 @@ export class HomePageComponent {
           verticalPosition: 'top'
         });
       }
-    );
+    );*/
   }
 
   registerUserToBackEnd(): void {
@@ -64,7 +68,6 @@ export class HomePageComponent {
   SetUserDataToSendFromForm(): User {
     this.userToSend.email = this.myReactiveForm.value.Email;
     this.userToSend.password = this.myReactiveForm.value.Password;
-    this.userToSend.role = this.myReactiveForm.value.UserRole;
     return this.userToSend;
   }
 
@@ -80,6 +83,33 @@ export class HomePageComponent {
     this.signUpFlag = false;
     this.logInFlag = false;
   }
+
+
+
+
+  setUserRole(): string {
+    var adminCheck = this.onAdminCheckBoxChange();
+    var userCheck = this.onUserCheckBoxChange();
+    if (adminCheck) {
+      return 'Admin';
+    }
+    if (userCheck) {
+      return 'User';
+    }
+    else {
+      return "";
+    }
+  }
+
+  onAdminCheckBoxChange() : boolean|null|undefined{
+    return this.myReactiveForm.get("isAdminChecked")?.value;
+  }
+
+  onUserCheckBoxChange(): boolean | null | undefined {
+    return this.myReactiveForm.get("isUserChecked")?.value;
+  }
+
+
 
   
 
@@ -119,6 +149,4 @@ export class HomePageComponent {
       }
     );
   }*/
-
-  
 }
