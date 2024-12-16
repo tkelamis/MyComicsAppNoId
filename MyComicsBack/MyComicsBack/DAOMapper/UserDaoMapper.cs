@@ -9,18 +9,17 @@ namespace MyComicsBack.DAOMapper
 
         public User DAOMapping(UserDAO userDao)
         {
-            User user = new User();
-            user.Email = userDao.Email;
-            user.Password = userDao.Password;
-            if (userDao.Role == "Admin")
+            return new User
             {
-                user.UserRoleId = 1;
-            }
-            if (userDao.Role == "User")
-            {
-                user.UserRoleId = 2;
-            }
-            return user;
+                Email = userDao.Email,
+                Password = userDao.Password,
+                UserRoleId = userDao.Role switch
+                {
+                    "Admin" => 1,
+                    "User" => 2,
+                    _ => 2
+                }
+            };
         }
     }
 }
