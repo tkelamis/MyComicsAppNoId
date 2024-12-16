@@ -56,4 +56,12 @@ body, html {
   padding-right: 1.2rem;
 }
 
+.welcome {
+  background-color: lightgreen;
+  color: aliceblue;
+  padding: 3rem;
+  border-radius: 15px;
+  background-color: #5a76bf;
+}
+
 

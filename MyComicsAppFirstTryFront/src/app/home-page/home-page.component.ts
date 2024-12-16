@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-import { ComicService } from '../Services/comic.service';
-import { Comic } from '../Shared/Models/Comic';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../Shared/Models/User';
 import { UserService } from '../Services/user.service';
@@ -15,9 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HomePageComponent {
 
-  userToSend: User = {};
+  userLoggedIn: User = {};
+  signUpLogInFlag: boolean = false;
   signUpFlag: boolean = false;
   logInFlag: boolean = false;
+  @Output() userEmitter = new EventEmitter<string>();
+
 
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
@@ -32,86 +33,81 @@ export class HomePageComponent {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    if (this.userLoggedIn.email){
+      this.checkIfLoggedIn(this.userLoggedIn.email);
+    }
+  }
 
+  signUpUser(): void {
+    this.sendUserToBackEnd(this.createUserFromForm());
+
+    this.userLoggedIn = this.createUserFromForm();
+    if (this.userLoggedIn.email) {
+      this.keepUserLoggedIn(this.userLoggedIn.email);
+    }
   }
 
   sendUserToBackEnd(userToRegister: User): void {
-    userToRegister.role = this.setUserRole();
     console.log(userToRegister);
-    /*this.userService.postUserDataToBackEnd(userToRegister).subscribe(
-      (response: HttpResponse<User>) => {
-        if (response.status === 201) {
-          this.snackBar.open(`User sended successfully!`, 'Close', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top'
-          });
+    this.userService.postUserDataToBackEnd(userToRegister).subscribe(
+      (response: HttpResponse<User>) =>
+      {
+        if (response.status === 200) {
+          this.snackBarSuccesfull();
         }
       },
       error => {
-        this.snackBar.open('Failed to send User.', 'Close', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        });
+        this.snackBarError();
       }
-    );*/
+    )
   }
 
-  registerUserToBackEnd(): void {
-
-    const userToRegister = this.SetUserDataToSendFromForm();
-
-    this.sendUserToBackEnd(userToRegister);
+  createUserFromForm(): User {
+    return {
+      email: this.myReactiveForm.value.Email,
+      password: this.myReactiveForm.value.Password,
+      role: "User"
+    }
   }
 
-  SetUserDataToSendFromForm(): User {
-    this.userToSend.email = this.myReactiveForm.value.Email;
-    this.userToSend.password = this.myReactiveForm.value.Password;
-    return this.userToSend;
-  }
-
-
-
-  setSignUp(): void {
-    this.signUpFlag = true;
-  }
-  setLogIn(): void {
-    this.logInFlag = true;
+  setSignUpLogInFLag(input: string): void {
+    this.signUpLogInFlag = true;
+    if (input === 'Sign Up') {
+      this.signUpFlag = true;
+    }
+    if (input === 'Log In') {
+      this.logInFlag = true;
+    }
   }
   resetSingUpLoginFlag(): void {
+    this.signUpLogInFlag = false;
     this.signUpFlag = false;
     this.logInFlag = false;
   }
 
-
-
-
-  setUserRole(): string {
-    var adminCheck = this.onAdminCheckBoxChange();
-    var userCheck = this.onUserCheckBoxChange();
-    if (adminCheck) {
-      return 'Admin';
-    }
-    if (userCheck) {
-      return 'User';
-    }
-    else {
-      return "";
-    }
+  snackBarSuccesfull(): void {
+    this.snackBar.open(`User sended successfully!`, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
+  }
+  snackBarError(): void {
+    this.snackBar.open('Failed to send User.', 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
   }
 
-  onAdminCheckBoxChange() : boolean|null|undefined{
-    return this.myReactiveForm.get("isAdminChecked")?.value;
+  keepUserLoggedIn(email: string): void {
+    localStorage.setItem(email, JSON.stringify(this.userLoggedIn));
   }
 
-  onUserCheckBoxChange(): boolean | null | undefined {
-    return this.myReactiveForm.get("isUserChecked")?.value;
+  checkIfLoggedIn(email: string): void {
+    localStorage.getItem(email);
+    console.log(email);
   }
-
-
-
-  
 
   /*logOut(): void {
     this.userService.logout();
@@ -148,5 +144,18 @@ export class HomePageComponent {
         });
       }
     );
+  }*/
+  /*setUserRole(): string {
+    var adminCheck = this.onAdminCheckBoxChange();
+    var userCheck = this.onUserCheckBoxChange();
+    if (adminCheck) {
+      return 'Admin';
+    }
+    if (userCheck) {
+      return 'User';
+    }
+    else {
+      return "";
+    }
   }*/
 }
