@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { User } from '../Shared/Models/User';
+import { UserService } from '../Services/user.service';
 
 @Component({
   selector: 'app-layout',
@@ -7,4 +8,14 @@ import { User } from '../Shared/Models/User';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
+  userLoggedIn: boolean = false;
+  userName: string = "";
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.userService.user$.subscribe((a) => {
+      this.userName = a;
+    })
+  }
 }

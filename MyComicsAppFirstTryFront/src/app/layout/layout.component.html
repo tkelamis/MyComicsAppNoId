@@ -9,15 +9,17 @@
       <li><a routerLink="/home"><i class="zmdi zmdi-view-dashboard"></i> Home</a></li>
       <li><a routerLink="/comic_list"><i class="zmdi zmdi-widgets"></i>All Comics</a></li>
       <li><a routerLink="/comic"><i class="zmdi zmdi-link"></i> MyComics</a></li>
-      <li><a href="#"><i class="zmdi zmdi-calendar"></i> Events</a></li>
-      <li><a href="#"><i class="zmdi zmdi-info-outline"></i> About</a></li>
-      <li><a href="#"><i class="zmdi zmdi-settings"></i> Services</a></li>
-      <li><a href="#"><i class="zmdi zmdi-comment-more"></i> Contact </a></li>
     </ul>
   </div>
   <!-- Content -->
 
   <div id="content">
+    <div class="user_logged">
+      <div class="user_name">
+        <h1>{{userName}}</h1>
+      </div>
+    </div>
+    
     <router-outlet></router-outlet>
   </div>
 </div>

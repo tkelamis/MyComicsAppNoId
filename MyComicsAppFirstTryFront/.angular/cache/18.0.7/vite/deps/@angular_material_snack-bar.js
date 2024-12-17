@@ -4,17 +4,16 @@ import {
   style,
   transition,
   trigger
-} from "./chunk-SRUJGQGD.js";
+} from "./chunk-UETFFS5N.js";
 import {
   DOCUMENT,
   Location,
   isPlatformBrowser
-} from "./chunk-XIQPQ3YC.js";
+} from "./chunk-M2NH7BBG.js";
 import {
   ANIMATION_MODULE_TYPE,
   APP_ID,
   ApplicationRef,
-  BehaviorSubject,
   CSP_NONCE,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -34,21 +33,16 @@ import {
   LOCALE_ID,
   NgModule,
   NgZone,
-  Observable,
   Optional,
   Output,
   PLATFORM_ID,
   QueryList,
   SkipSelf,
-  Subject,
-  Subscription,
   TemplateRef,
   Version,
   ViewChild,
   ViewContainerRef,
   ViewEncapsulation$1,
-  __spreadProps,
-  __spreadValues,
   afterNextRender,
   afterRender,
   animationFrameScheduler,
@@ -119,7 +113,15 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-BJWBSQLD.js";
+} from "./chunk-5XU5GUEM.js";
+import {
+  BehaviorSubject,
+  Observable,
+  Subject,
+  Subscription,
+  __spreadProps,
+  __spreadValues
+} from "./chunk-VFYO67JX.js";
 
 // node_modules/@angular/cdk/fesm2022/platform.mjs
 var hasV8BreakIterator;

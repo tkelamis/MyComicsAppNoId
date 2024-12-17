@@ -13,11 +13,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HomePageComponent {
 
-  userLoggedIn: User = {};
+  userToLogIn: User = {};
   signUpLogInFlag: boolean = false;
   signUpFlag: boolean = false;
   logInFlag: boolean = false;
-  @Output() userEmitter = new EventEmitter<string>();
+  afterSignUpOrLogInFlag: boolean = false;
 
 
   myReactiveForm = this.formBuilder.group({
@@ -33,17 +33,23 @@ export class HomePageComponent {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    if (this.userLoggedIn.email){
-      this.checkIfLoggedIn(this.userLoggedIn.email);
+    // The (typeof window !== 'undefined') is added to ensure that the localStorage that is being used only in the browser environment, not on the server.
+    if (typeof window !== 'undefined') {
+      var storedFlag = localStorage.getItem('afterSignUpOrLogInFlag');
+      if (storedFlag == 'true') {
+        this.afterSignUpOrLogInFlag = true;
+      }
     }
   }
 
   signUpUser(): void {
-    this.sendUserToBackEnd(this.createUserFromForm());
+    this.userToLogIn = this.createUserFromForm();
 
-    this.userLoggedIn = this.createUserFromForm();
-    if (this.userLoggedIn.email) {
-      this.keepUserLoggedIn(this.userLoggedIn.email);
+    this.sendUserToBackEnd(this.userToLogIn);
+
+    if (this.userToLogIn.email) {
+      this.storeUserLoggedIn(this.userToLogIn.email);
+      this.userService.setUser(this.userToLogIn.email);
     }
   }
 
@@ -62,6 +68,19 @@ export class HomePageComponent {
     )
   }
 
+  afterSignUpOrLogIn() {
+    this.afterSignUpOrLogInFlag = true;
+    localStorage.setItem('afterSignUpOrLogInFlag', 'true');
+  }
+
+  storeUserLoggedIn(email: string): void {
+    localStorage.setItem(email, JSON.stringify(this.userToLogIn));
+  }
+
+  storeafterSignUpOrLogInFlag(flag: string) {
+    localStorage.setItem(flag, JSON.stringify(this.afterSignUpOrLogInFlag));
+  }
+
   createUserFromForm(): User {
     return {
       email: this.myReactiveForm.value.Email,
@@ -69,6 +88,8 @@ export class HomePageComponent {
       role: "User"
     }
   }
+
+
 
   setSignUpLogInFLag(input: string): void {
     this.signUpLogInFlag = true;
@@ -85,6 +106,7 @@ export class HomePageComponent {
     this.logInFlag = false;
   }
 
+
   snackBarSuccesfull(): void {
     this.snackBar.open(`User sended successfully!`, 'Close', {
       duration: 5000,
@@ -99,63 +121,4 @@ export class HomePageComponent {
       verticalPosition: 'top'
     });
   }
-
-  keepUserLoggedIn(email: string): void {
-    localStorage.setItem(email, JSON.stringify(this.userLoggedIn));
-  }
-
-  checkIfLoggedIn(email: string): void {
-    localStorage.getItem(email);
-    console.log(email);
-  }
-
-  /*logOut(): void {
-    this.userService.logout();
-    this.snackBar.open('You have been logged out.', 'Close', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
-  }*/
-
-  /*getRolesFromToken(): void {
-    this.roles = this.userService.getRolesFromToken();
-    if (this.roles.length > 0) {
-      console.log('User roles:', this.roles);
-    }
-  }*/
-
-  /*loginUser(user: User): void {
-    this.userService.postUserDataToBackEnd(user).subscribe(
-      response => {
-        if (response) {
-          this.snackBar.open(`Welcome ${response.body.email}!`, 'Close', {
-            duration: 5000,
-            horizontalPosition: 'center',
-            verticalPosition: 'top'
-          });
-        }
-      },
-      error => {
-        this.snackBar.open('Login failed. Please check your credentials.', 'Close', {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        });
-      }
-    );
-  }*/
-  /*setUserRole(): string {
-    var adminCheck = this.onAdminCheckBoxChange();
-    var userCheck = this.onUserCheckBoxChange();
-    if (adminCheck) {
-      return 'Admin';
-    }
-    if (userCheck) {
-      return 'User';
-    }
-    else {
-      return "";
-    }
-  }*/
 }

@@ -1,4 +1,4 @@
-<div *ngIf="!signUpLogInFlag" class="container">
+<div *ngIf="!signUpLogInFlag && !afterSignUpOrLogInFlag" class="container">
   <button type="button" class="btn btn-success" (click)="setSignUpLogInFLag('Sign Up')">Sign Up</button>
   <p class="simplePConfig"> - OR - </p>
   <button type="button" class="btn btn-info" (click)="setSignUpLogInFLag('Log In')">Log In</button>
@@ -6,7 +6,7 @@
 
 
 
-<div *ngIf="signUpLogInFlag && !userLoggedIn.email" class="container">
+<div *ngIf="signUpLogInFlag && !userToLogIn.email" class="container">
   <h1 *ngIf="signUpFlag" style="color:aliceblue">Sign Up</h1>
   <h1 *ngIf="logInFlag" style="color:aliceblue">Log In</h1>
 
@@ -32,11 +32,17 @@
   </div>
 </div>
 
-<div *ngIf="userLoggedIn.email" class="container">
+<div *ngIf="userToLogIn.email && !afterSignUpOrLogInFlag" class="container">
   <div class="welcome">
-    <h1  style="color:aliceblue">Welcome, {{ userLoggedIn.email }}. You have successfully logged in.</h1>
+    <h1 style="color:aliceblue">Welcome, {{ userToLogIn.email }}. You have successfully logged in.</h1>
+    <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="afterSignUpOrLogIn()">Continue</button>
   </div>
-  
+</div>
+
+<div *ngIf="afterSignUpOrLogInFlag" class="container">
+  <div class="welcome">
+    <h1 style="color:aliceblue">You are logged as user {{ userToLogIn.email }}. You can view your comics and other details by selecting the other tabs</h1>
+  </div>
 </div>
 
 

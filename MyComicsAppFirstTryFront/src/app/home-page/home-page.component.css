@@ -3,13 +3,13 @@ body, html {
   margin: 0;
 }
 
-.fullscreen-background {
+/*.fullscreen-background {
   height: 100vh;
   width: 100vw;
   position: fixed;
   top: 0;
   left: 0;
-}
+}*/
 
 .container {
   display: flex;
@@ -57,11 +57,10 @@ body, html {
 }
 
 .welcome {
-  background-color: lightgreen;
   color: aliceblue;
   padding: 3rem;
-  border-radius: 15px;
   background-color: #5a76bf;
+  border-radius: 15px;
 }
 
 
