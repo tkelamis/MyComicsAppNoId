@@ -14,8 +14,8 @@ export class LayoutComponent {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.user$.subscribe((a) => {
-      this.userName = a;
+    this.userService.user$.subscribe((user) => {
+      this.userName = user;
     })
   }
 }

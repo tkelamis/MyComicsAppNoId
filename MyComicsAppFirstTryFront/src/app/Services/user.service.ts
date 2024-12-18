@@ -25,8 +25,18 @@ export class UserService {
   }
 
   user$ = this.userSubject.asObservable();
+
   setUser(user: any) {
     this.userSubject.next(user);
+  }
+
+  storeUserLoggedIn(user: User): void {
+    localStorage.setItem('loggedUser', JSON.stringify(user.email));
+  }
+
+  logOutUser() {
+    localStorage.removeItem('loggedUser');
+    this.userSubject.next(null);
   }
 
   /*retrieveSignedUpUserFromLocalStorage(name: string) {

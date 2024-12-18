@@ -13,12 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class HomePageComponent {
 
+  existingUserInLocalStorage: any;
   userToLogIn: User = {};
   signUpLogInFlag: boolean = false;
   signUpFlag: boolean = false;
   logInFlag: boolean = false;
   afterSignUpOrLogInFlag: boolean = false;
-
 
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
@@ -33,12 +33,21 @@ export class HomePageComponent {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    // The (typeof window !== 'undefined') is added to ensure that the localStorage that is being used only in the browser environment, not on the server.
+    
     if (typeof window !== 'undefined') {
-      var storedFlag = localStorage.getItem('afterSignUpOrLogInFlag');
-      if (storedFlag == 'true') {
-        this.afterSignUpOrLogInFlag = true;
-      }
+      this.existingUserInLocalStorage = localStorage.getItem('loggedUser');
+    }
+    if (this.existingUserInLocalStorage) {
+      this.userService.setUser(this.existingUserInLocalStorage);
+      this.userService.user$.subscribe((user => {
+        if (user) {
+          this.userToLogIn.email = user;
+          this.afterSignUpOrLogInFlag = true;
+        }
+      }))
+    }
+    else {
+      this.resetPageToSignUpLogInOptions();
     }
   }
 
@@ -48,13 +57,11 @@ export class HomePageComponent {
     this.sendUserToBackEnd(this.userToLogIn);
 
     if (this.userToLogIn.email) {
-      this.storeUserLoggedIn(this.userToLogIn.email);
-      this.userService.setUser(this.userToLogIn.email);
+      this.userService.storeUserLoggedIn(this.userToLogIn);
     }
   }
 
   sendUserToBackEnd(userToRegister: User): void {
-    console.log(userToRegister);
     this.userService.postUserDataToBackEnd(userToRegister).subscribe(
       (response: HttpResponse<User>) =>
       {
@@ -64,23 +71,9 @@ export class HomePageComponent {
       },
       error => {
         this.snackBarError();
-      }
-    )
+      })
   }
-
-  afterSignUpOrLogIn() {
-    this.afterSignUpOrLogInFlag = true;
-    localStorage.setItem('afterSignUpOrLogInFlag', 'true');
-  }
-
-  storeUserLoggedIn(email: string): void {
-    localStorage.setItem(email, JSON.stringify(this.userToLogIn));
-  }
-
-  storeafterSignUpOrLogInFlag(flag: string) {
-    localStorage.setItem(flag, JSON.stringify(this.afterSignUpOrLogInFlag));
-  }
-
+  
   createUserFromForm(): User {
     return {
       email: this.myReactiveForm.value.Email,
@@ -88,6 +81,14 @@ export class HomePageComponent {
       role: "User"
     }
   }
+
+  logOut() {
+    this.userService.logOutUser();
+    this.resetPageToSignUpLogInOptions()
+    this.userToLogIn = {};
+  }
+
+
 
 
 
@@ -100,12 +101,21 @@ export class HomePageComponent {
       this.logInFlag = true;
     }
   }
+
+  resetPageToSignUpLogInOptions() {
+    this.afterSignUpOrLogInFlag = false;
+    this.signUpLogInFlag = false;
+  }
+
   resetSingUpLoginFlag(): void {
     this.signUpLogInFlag = false;
     this.signUpFlag = false;
     this.logInFlag = false;
   }
 
+  afterSignUpOrLogIn() {
+    this.afterSignUpOrLogInFlag = true;
+  }
 
   snackBarSuccesfull(): void {
     this.snackBar.open(`User sended successfully!`, 'Close', {
@@ -121,4 +131,17 @@ export class HomePageComponent {
       verticalPosition: 'top'
     });
   }
+
+
+
+
+  
+
+  // The (typeof window !== 'undefined') is added to ensure that the localStorage that is being used only in the browser environment, not on the server.
+  /*if (typeof window !== 'undefined') {
+    var storedFlag = localStorage.getItem('afterSignUpOrLogInFlag');
+    if (storedFlag == 'true') {
+      this.afterSignUpOrLogInFlag = true;
+    }
+  }*/
 }
