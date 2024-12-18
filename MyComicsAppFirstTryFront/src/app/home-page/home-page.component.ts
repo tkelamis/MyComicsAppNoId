@@ -15,10 +15,17 @@ export class HomePageComponent {
 
   existingUserInLocalStorage: any;
   userToLogIn: User = {};
+
+
   signUpLogInFlag: boolean = false;
   signUpFlag: boolean = false;
   logInFlag: boolean = false;
+
   afterSignUpOrLogInFlag: boolean = false;
+
+  stayLoggedInFlag: boolean = false;
+
+  SuccessfullLoginSignUp: boolean = false;
 
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
@@ -33,32 +40,33 @@ export class HomePageComponent {
     private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    
-    if (typeof window !== 'undefined') {
-      this.existingUserInLocalStorage = localStorage.getItem('loggedUser');
-    }
+      if (typeof window !== 'undefined') {
+        this.existingUserInLocalStorage = localStorage.getItem('loggedUser');
+      }
     if (this.existingUserInLocalStorage) {
       this.userService.setUser(this.existingUserInLocalStorage);
       this.userService.user$.subscribe((user => {
         if (user) {
           this.userToLogIn.email = user;
-          this.afterSignUpOrLogInFlag = true;
+          this.userLoggedInFlags();
         }
       }))
     }
-    else {
-      this.resetPageToSignUpLogInOptions();
-    }
+      else {
+        this.resetPageToSignUpLogInOptions();
+      }
   }
 
   signUpUser(): void {
+      this.userToLogIn = this.createUserFromForm();
+
+      this.sendUserToBackEnd(this.userToLogIn);
+  }
+
+  logInUser() {
     this.userToLogIn = this.createUserFromForm();
 
     this.sendUserToBackEnd(this.userToLogIn);
-
-    if (this.userToLogIn.email) {
-      this.userService.storeUserLoggedIn(this.userToLogIn);
-    }
   }
 
   sendUserToBackEnd(userToRegister: User): void {
@@ -66,11 +74,21 @@ export class HomePageComponent {
       (response: HttpResponse<User>) =>
       {
         if (response.status === 200) {
-          this.snackBarSuccesfull();
+          this.userService.storeUserLoggedIn(this.userToLogIn);
+          this.SuccessfullLoginSignUp = true;
+        }
+        else if (response.status === 409) {
+          this.SuccessfullLoginSignUp = false;
         }
       },
       error => {
-        this.snackBarError();
+        if (error.status === 409) {
+          this.SuccessfullLoginSignUp = false;
+          this.afterSignUpOrLogInFlag = true;
+
+        } else {
+          console.error('Unexpected error:', error);
+        }
       })
   }
   
@@ -92,6 +110,13 @@ export class HomePageComponent {
 
 
 
+
+
+
+
+
+
+
   setSignUpLogInFLag(input: string): void {
     this.signUpLogInFlag = true;
     if (input === 'Sign Up') {
@@ -101,21 +126,59 @@ export class HomePageComponent {
       this.logInFlag = true;
     }
   }
-
-  resetPageToSignUpLogInOptions() {
-    this.afterSignUpOrLogInFlag = false;
-    this.signUpLogInFlag = false;
-  }
-
   resetSingUpLoginFlag(): void {
     this.signUpLogInFlag = false;
     this.signUpFlag = false;
     this.logInFlag = false;
   }
 
+
+
   afterSignUpOrLogIn() {
     this.afterSignUpOrLogInFlag = true;
   }
+  resetPageToSignUpLogInOptions() {
+    this.signUpLogInFlag = false;
+    this.SuccessfullLoginSignUp = false;
+
+  }
+
+  resetAllFlagsAndUser() {
+    this.signUpLogInFlag = true;
+
+    /*this.resetPageToSignUpLogInOptions();*/
+    /*this.resetSingUpLoginFlag();*/
+    this.userToLogIn = {};
+  }
+
+  userLoggedInFlags() {
+    this.afterSignUpOrLogInFlag = true;
+    this.SuccessfullLoginSignUp = true;
+    this.stayLoggedInFlag = true;
+  }
+
+
+
+  goToLoggedInUserMessage() {
+    this.afterSignUpOrLogIn();
+    this.stayLoggedInFlag = true;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   snackBarSuccesfull(): void {
     this.snackBar.open(`User sended successfully!`, 'Close', {
