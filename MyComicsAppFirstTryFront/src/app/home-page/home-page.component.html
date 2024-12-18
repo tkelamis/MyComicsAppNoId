@@ -1,14 +1,14 @@
-<!--Οθόνη Sign Up και Log In-->
-<div *ngIf="!signUpLogInFlag && !SuccessfullLoginSignUp" class="container">
-  <button type="button" class="btn btn-success" (click)="setSignUpLogInFLag('Sign Up')">Sign Up</button>
+<div class="container">
+  <button type="button" class="btn btn-success" (click)="navigateToSignUpForm()">Sign Up</button>
   <p class="simplePConfig"> - OR - </p>
-  <button type="button" class="btn btn-info" (click)="setSignUpLogInFLag('Log In')">Log In</button>
+  <button type="button" class="btn btn-info" (click)="navigateToLogInForm()">Log In</button>
 </div>
+  
 
 
 <!--Οθόνη με φόρμες για Sign Up και Log In-->
-<div *ngIf="signUpLogInFlag && !userToLogIn.email" class="container">
-  <h1 *ngIf="signUpFlag" style="color:aliceblue">Sign Up</h1>
+<!--<div *ngIf="signUpLogInFlag && !userToLogIn.email" class="container">
+  
   <h1 *ngIf="logInFlag" style="color:aliceblue">Log In</h1>
 
   <form [formGroup]="myReactiveForm">
@@ -32,34 +32,34 @@
   <div>
     <button type="button" class="btn btn-dark" style="color:aliceblue" (click)="resetSingUpLoginFlag()">Back</button>
   </div>
-</div>
+</div>-->
 
 
 <!--Οθόνη welcome μετα το Sign Up και Log In-->
-<div *ngIf="userToLogIn.email && SuccessfullLoginSignUp && !stayLoggedInFlag" class="container">
+<!--<div *ngIf="userToLogIn.email && SuccessfullLoginSignUp && !stayLoggedInFlag" class="container">
   <div class="welcome">
     <h1 style="color:aliceblue">Welcome, {{ userToLogIn.email }}. You have successfully logged in.</h1>
     <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="goToLoggedInUserMessage()">Continue</button>
   </div>
-</div>
+</div>-->
 
 
 <!--Οθόνη ενημέρωσης ότι χρήστης υπάρχει μετά το Sign Up και Log In-->
-<div *ngIf="userToLogIn.email && afterSignUpOrLogInFlag && !SuccessfullLoginSignUp" class="container">
+<!--<div *ngIf="userToLogIn.email && afterSignUpOrLogInFlag && !SuccessfullLoginSignUp" class="container">
   <div class="welcome">
     <h1 style="color:aliceblue">User, {{ userToLogIn.email }} already exists</h1>
     <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="resetAllFlagsAndUser()">Back</button>
   </div>
-</div>
+</div>-->
 
 
 <!--Οθόνη παραμονής και ένδειξης ότι ο χρήστης είναι συνδεδεμένος μετά το Sign Up και Log In-->
-<div *ngIf="afterSignUpOrLogInFlag && SuccessfullLoginSignUp && stayLoggedInFlag" class="container">
+<!--<div *ngIf="afterSignUpOrLogInFlag && SuccessfullLoginSignUp && stayLoggedInFlag" class="container">
   <div class="welcome">
     <h1 style="color:aliceblue">You are logged as user {{ userToLogIn.email }}. You can view your comics and other details by selecting the other tabs</h1>
   </div>
   <button type="button" class="btn btn-danger" (click)="logOut()">Log Out</button>
-</div>
+</div>-->
 
 
 

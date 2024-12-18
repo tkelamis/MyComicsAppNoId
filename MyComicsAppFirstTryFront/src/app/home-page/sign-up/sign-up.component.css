@@ -1,0 +1,55 @@
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.buttons {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  margin-left: 0 !important;
+}
+
+.btn btn-primary {
+  background-color: darkred !important;
+}
+
+.simplePConfig {
+  font-size: 1.2rem;
+  color: white;
+}
+
+.btn {
+  --bs-btn-font-size: 1.25rem;
+}
+
+.form-group {
+  padding-bottom: 1rem;
+}
+
+.checkboxes {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1.2rem;
+  padding-right: 1.2rem;
+}
+
+.welcome {
+  color: aliceblue;
+  padding: 3rem;
+  background-color: #5a76bf;
+  border-radius: 15px;
+}

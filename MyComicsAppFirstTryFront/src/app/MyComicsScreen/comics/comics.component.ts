@@ -27,7 +27,7 @@ export class ComicsComponent implements OnInit {
   }
 
   navigateToDetails(comic: Comic): void {
-    this.router.navigate(['/comic', comic.id], { queryParams: { action: "details" } });
+    this.router.navigate(['/home', comic.id], { queryParams: { action: "details" } });
   }
 
   navigateToInformations(comic: Comic): void {

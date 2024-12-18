@@ -4,6 +4,10 @@ import { User } from '../Shared/Models/User';
 import { UserService } from '../Services/user.service';
 import { HttpResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { NavigationService } from '../Services/navigation.service';
+
 
 
 @Component({
@@ -37,7 +41,11 @@ export class HomePageComponent {
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router,
+    private navigationService: NavigationService
+  ) { }
 
   ngOnInit(): void {
       if (typeof window !== 'undefined') {
@@ -48,27 +56,40 @@ export class HomePageComponent {
       this.userService.user$.subscribe((user => {
         if (user) {
           this.userToLogIn.email = user;
-          this.userLoggedInFlags();
+          /*this.userLoggedInFlags();*/
         }
       }))
     }
       else {
-        this.resetPageToSignUpLogInOptions();
+        /*this.resetPageToSignUpLogInOptions();*/
       }
   }
 
-  signUpUser(): void {
+
+  navigateToSignUpForm(): void {
+    this.navigationService.navigateToSignUpForm();
+  }
+
+  navigateToLogInForm(): void {
+    this.navigationService.navigateToLogInForm();
+  }
+
+
+
+
+
+
+
+  /*signUpUser(): void {
       this.userToLogIn = this.createUserFromForm();
 
       this.sendUserToBackEnd(this.userToLogIn);
   }
-
   logInUser() {
     this.userToLogIn = this.createUserFromForm();
 
     this.sendUserToBackEnd(this.userToLogIn);
   }
-
   sendUserToBackEnd(userToRegister: User): void {
     this.userService.postUserDataToBackEnd(userToRegister).subscribe(
       (response: HttpResponse<User>) =>
@@ -91,7 +112,6 @@ export class HomePageComponent {
         }
       })
   }
-  
   createUserFromForm(): User {
     return {
       email: this.myReactiveForm.value.Email,
@@ -99,24 +119,11 @@ export class HomePageComponent {
       role: "User"
     }
   }
-
   logOut() {
     this.userService.logOutUser();
     this.resetPageToSignUpLogInOptions()
     this.userToLogIn = {};
   }
-
-
-
-
-
-
-
-
-
-
-
-
   setSignUpLogInFLag(input: string): void {
     this.signUpLogInFlag = true;
     if (input === 'Sign Up') {
@@ -131,9 +138,6 @@ export class HomePageComponent {
     this.signUpFlag = false;
     this.logInFlag = false;
   }
-
-
-
   afterSignUpOrLogIn() {
     this.afterSignUpOrLogInFlag = true;
   }
@@ -142,44 +146,22 @@ export class HomePageComponent {
     this.SuccessfullLoginSignUp = false;
 
   }
-
   resetAllFlagsAndUser() {
     this.signUpLogInFlag = true;
 
-    /*this.resetPageToSignUpLogInOptions();*/
-    /*this.resetSingUpLoginFlag();*/
+    *//*this.resetPageToSignUpLogInOptions();*//*
+    *//*this.resetSingUpLoginFlag();*//*
     this.userToLogIn = {};
   }
-
   userLoggedInFlags() {
     this.afterSignUpOrLogInFlag = true;
     this.SuccessfullLoginSignUp = true;
     this.stayLoggedInFlag = true;
   }
-
-
-
   goToLoggedInUserMessage() {
     this.afterSignUpOrLogIn();
     this.stayLoggedInFlag = true;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   snackBarSuccesfull(): void {
     this.snackBar.open(`User sended successfully!`, 'Close', {
       duration: 5000,
@@ -193,9 +175,7 @@ export class HomePageComponent {
       horizontalPosition: 'center',
       verticalPosition: 'top'
     });
-  }
-
-
+  }*/
 
 
   
