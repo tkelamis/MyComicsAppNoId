@@ -20,5 +20,19 @@ namespace MyComicsBack.Repository
             _context.Users.Add(user);
             return _unitOfWork.Save();
         }
+
+        public bool UserExists(User user)
+        {
+
+            User existingUser = _context.Users.FirstOrDefault(a => a.Email == user.Email);
+            if (existingUser != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

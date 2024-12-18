@@ -33,9 +33,37 @@ namespace MyComicsBack.Controllers
 
             User finalUserToSendToDatabase = _userDAOMapper.DAOMapping(userDao);
 
-            _userRepository.Add(finalUserToSendToDatabase);
+            if (_userRepository.UserExists(finalUserToSendToDatabase))
+            {
+                return Conflict(new { message = "User already exists." });
+            }
+            else
+            {
+                _userRepository.Add(finalUserToSendToDatabase);
 
-            return Ok(finalUserToSendToDatabase);
+                return Ok(finalUserToSendToDatabase);
+            }
+        }
+
+        [HttpPost ("existing")]
+        public async Task<IActionResult> PostUserExisting([FromBody] UserDAO userDao)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            User finalUserToSendToDatabase = _userDAOMapper.DAOMapping(userDao);
+
+            if (_userRepository.UserExists(finalUserToSendToDatabase))
+            {
+                return Conflict(new { message = "User already exists." });
+            }
+            else
+            {
+                return Ok(finalUserToSendToDatabase);
+            }
         }
     }
 }
