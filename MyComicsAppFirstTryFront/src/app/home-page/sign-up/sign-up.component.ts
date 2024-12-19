@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../Services/user.service';
 import { User } from '../../Shared/Models/User';
 import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NavigationService } from '../../Services/navigation.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ResponseHandlerService } from '../../Services/response-handler.service';
+
 
 @Component({
   selector: 'app-sign-up',
@@ -14,12 +17,15 @@ import { NavigationService } from '../../Services/navigation.service';
 export class SignUpComponent {
 
   userToLogIn: User = {};
+  SuccessfullLoginSignUp: boolean = false;
 
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router,
-    private navigationService: NavigationService) { }
+    private navigationService: NavigationService,
+    private snackBar: MatSnackBar,
+    private responseHandlerService: ResponseHandlerService
+  ) { }
 
 
   myReactiveForm = this.formBuilder.group({
@@ -35,24 +41,27 @@ export class SignUpComponent {
     this.userToLogIn = this.createUserFromForm();
 
     this.sendUserToBackEnd(this.userToLogIn);
+
+    
+
   }
 
   sendUserToBackEnd(userToRegister: User): void {
     this.userService.postUserDataToBackEnd(userToRegister).subscribe(
       (response: HttpResponse<User>) => {
         if (response.status === 200) {
-          this.userService.storeUserLoggedIn(this.userToLogIn);
-        }
-        else if (response.status === 409) {
+          if (this.userToLogIn.email) {
+            this.userService.storeUserLoggedIn(this.userToLogIn);
+            this.userService.setUserObservable(this.userService.retrieveSignedUpUserFromLocalStorage());
+            this.responseHandlerService.handleSuccessForUserSignedUp(response, this.navigateToUserLoggedIn.bind(this, this.userToLogIn.email));
+            
+          }
         }
       },
       error => {
-        if (error.status === 409) {
-
-        } else {
-          console.error('Unexpected error:', error);
-        }
-      })
+          this.responseHandlerService.handleErrorForUserSignedUp(error);
+      }
+    )
   }
 
   createUserFromForm(): User {
@@ -63,9 +72,7 @@ export class SignUpComponent {
     }
   }
 
-  navigateToHome(): void {
-    this.navigationService.navigateToHome();
+  navigateToUserLoggedIn(user : string): void {
+    this.navigationService.navigateToLoggedInScreen(user);
   }
-
-
 }

@@ -17,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DeleteComicComponent } from './AllComicsScreen/Comics-Table/Delete-comic/delete-comic.component';
 import { AddComicToMyComicsComponent } from './AllComicsScreen/Comics-Table/add-comic-to-my-comics/add-comic-to-my-comics.component';
 import { LogInComponent } from './home-page/log-in/log-in.component';
+import { WelcomeAndStayLoggedComponent } from './home-page/welcome-and-stay-logged/welcome-and-stay-logged.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { LogInComponent } from './home-page/log-in/log-in.component';
     DeleteComicComponent,
     AddComicToMyComicsComponent,
     SignUpComponent,
-    LogInComponent
+    LogInComponent,
+    WelcomeAndStayLoggedComponent
   ],
   imports: [
     BrowserModule,

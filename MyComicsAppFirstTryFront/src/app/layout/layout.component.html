@@ -1,5 +1,5 @@
 <div id="viewport">
-  
+
   <!-- Sidebar -->
   <div id="sidebar">
     <header>
@@ -16,10 +16,12 @@
   <div id="content">
     <div class="user_logged">
       <div class="user_name">
-        <h1>{{userName}}</h1>
+        <h1>{{userLoggedIn}}</h1>
       </div>
     </div>
-    
+
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<!--[queryParams]="{ user: username }"-->

@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../Shared/Models/User';
 import { UserService } from '../Services/user.service';
-import { HttpResponse } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { NavigationService } from '../Services/navigation.service';
@@ -15,21 +13,12 @@ import { NavigationService } from '../Services/navigation.service';
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
 
   existingUserInLocalStorage: any;
   userToLogIn: User = {};
+  signUpLogInClickFlag: boolean = false;
 
-
-  signUpLogInFlag: boolean = false;
-  signUpFlag: boolean = false;
-  logInFlag: boolean = false;
-
-  afterSignUpOrLogInFlag: boolean = false;
-
-  stayLoggedInFlag: boolean = false;
-
-  SuccessfullLoginSignUp: boolean = false;
 
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required]],
@@ -41,150 +30,40 @@ export class HomePageComponent {
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
-    private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
     private navigationService: NavigationService
   ) { }
 
-  ngOnInit(): void {
-      if (typeof window !== 'undefined') {
-        this.existingUserInLocalStorage = localStorage.getItem('loggedUser');
-      }
-    if (this.existingUserInLocalStorage) {
-      this.userService.setUser(this.existingUserInLocalStorage);
-      this.userService.user$.subscribe((user => {
-        if (user) {
-          this.userToLogIn.email = user;
-          /*this.userLoggedInFlags();*/
-        }
-      }))
-    }
-      else {
-        /*this.resetPageToSignUpLogInOptions();*/
-      }
-  }
+  ngOnInit() {
+    this.signUpLogInClickFlag = false;
 
+    if (typeof window !== 'undefined') {
+      this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
+
+      if (this.navigationService.loggedInUserToURLExistsNoPipes()) {
+        this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
+        this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
+      }
+
+
+      /*this.navigationService.loggedInUserToURLExists().subscribe(flag => {
+        if (flag) {
+          this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
+          this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
+        }
+        else {
+        }
+      })*/
+    }
+  }
 
   navigateToSignUpForm(): void {
     this.navigationService.navigateToSignUpForm();
+    
   }
 
   navigateToLogInForm(): void {
     this.navigationService.navigateToLogInForm();
   }
-
-
-
-
-
-
-
-  /*signUpUser(): void {
-      this.userToLogIn = this.createUserFromForm();
-
-      this.sendUserToBackEnd(this.userToLogIn);
-  }
-  logInUser() {
-    this.userToLogIn = this.createUserFromForm();
-
-    this.sendUserToBackEnd(this.userToLogIn);
-  }
-  sendUserToBackEnd(userToRegister: User): void {
-    this.userService.postUserDataToBackEnd(userToRegister).subscribe(
-      (response: HttpResponse<User>) =>
-      {
-        if (response.status === 200) {
-          this.userService.storeUserLoggedIn(this.userToLogIn);
-          this.SuccessfullLoginSignUp = true;
-        }
-        else if (response.status === 409) {
-          this.SuccessfullLoginSignUp = false;
-        }
-      },
-      error => {
-        if (error.status === 409) {
-          this.SuccessfullLoginSignUp = false;
-          this.afterSignUpOrLogInFlag = true;
-
-        } else {
-          console.error('Unexpected error:', error);
-        }
-      })
-  }
-  createUserFromForm(): User {
-    return {
-      email: this.myReactiveForm.value.Email,
-      password: this.myReactiveForm.value.Password,
-      role: "User"
-    }
-  }
-  logOut() {
-    this.userService.logOutUser();
-    this.resetPageToSignUpLogInOptions()
-    this.userToLogIn = {};
-  }
-  setSignUpLogInFLag(input: string): void {
-    this.signUpLogInFlag = true;
-    if (input === 'Sign Up') {
-      this.signUpFlag = true;
-    }
-    if (input === 'Log In') {
-      this.logInFlag = true;
-    }
-  }
-  resetSingUpLoginFlag(): void {
-    this.signUpLogInFlag = false;
-    this.signUpFlag = false;
-    this.logInFlag = false;
-  }
-  afterSignUpOrLogIn() {
-    this.afterSignUpOrLogInFlag = true;
-  }
-  resetPageToSignUpLogInOptions() {
-    this.signUpLogInFlag = false;
-    this.SuccessfullLoginSignUp = false;
-
-  }
-  resetAllFlagsAndUser() {
-    this.signUpLogInFlag = true;
-
-    *//*this.resetPageToSignUpLogInOptions();*//*
-    *//*this.resetSingUpLoginFlag();*//*
-    this.userToLogIn = {};
-  }
-  userLoggedInFlags() {
-    this.afterSignUpOrLogInFlag = true;
-    this.SuccessfullLoginSignUp = true;
-    this.stayLoggedInFlag = true;
-  }
-  goToLoggedInUserMessage() {
-    this.afterSignUpOrLogIn();
-    this.stayLoggedInFlag = true;
-  }
-  snackBarSuccesfull(): void {
-    this.snackBar.open(`User sended successfully!`, 'Close', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
-  }
-  snackBarError(): void {
-    this.snackBar.open('Failed to send User.', 'Close', {
-      duration: 5000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
-  }*/
-
-
-  
-
-  // The (typeof window !== 'undefined') is added to ensure that the localStorage that is being used only in the browser environment, not on the server.
-  /*if (typeof window !== 'undefined') {
-    var storedFlag = localStorage.getItem('afterSignUpOrLogInFlag');
-    if (storedFlag == 'true') {
-      this.afterSignUpOrLogInFlag = true;
-    }
-  }*/
 }

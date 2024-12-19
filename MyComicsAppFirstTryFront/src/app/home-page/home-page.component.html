@@ -3,64 +3,55 @@
   <p class="simplePConfig"> - OR - </p>
   <button type="button" class="btn btn-info" (click)="navigateToLogInForm()">Log In</button>
 </div>
-  
-
-
-<!--Οθόνη με φόρμες για Sign Up και Log In-->
-<!--<div *ngIf="signUpLogInFlag && !userToLogIn.email" class="container">
-  
-  <h1 *ngIf="logInFlag" style="color:aliceblue">Log In</h1>
-
-  <form [formGroup]="myReactiveForm">
-    <div class="form-group">
-      <label for="exampleInputEmail1" style="display:block; color: aliceblue; text-align: center ">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" formControlName="Email">
-      <small id="emailHelp" class="form-text text-muted" style="color:aliceblue !important">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1" style="display: block; color: aliceblue; text-align: center">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="Password">
-    </div>
-    <div class="buttons">
-      <button *ngIf="signUpFlag" type="submit" class="btn btn-primary" style="color:aliceblue" (click)="signUpUser()">Sing me up</button>
-      <button *ngIf="logInFlag" type="submit" class="btn btn-primary" style="color:aliceblue">Log me in</button>
-    </div>
-  </form>
 
 
 
-  <div>
-    <button type="button" class="btn btn-dark" style="color:aliceblue" (click)="resetSingUpLoginFlag()">Back</button>
-  </div>
-</div>-->
+    <!--Οθόνη με φόρμες για Sign Up και Log In-->
+    <!--<div *ngIf="signUpLogInFlag && !userToLogIn.email" class="container">
 
+      <h1 *ngIf="logInFlag" style="color:aliceblue">Log In</h1>
 
-<!--Οθόνη welcome μετα το Sign Up και Log In-->
-<!--<div *ngIf="userToLogIn.email && SuccessfullLoginSignUp && !stayLoggedInFlag" class="container">
-  <div class="welcome">
-    <h1 style="color:aliceblue">Welcome, {{ userToLogIn.email }}. You have successfully logged in.</h1>
-    <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="goToLoggedInUserMessage()">Continue</button>
-  </div>
-</div>-->
-
-
-<!--Οθόνη ενημέρωσης ότι χρήστης υπάρχει μετά το Sign Up και Log In-->
-<!--<div *ngIf="userToLogIn.email && afterSignUpOrLogInFlag && !SuccessfullLoginSignUp" class="container">
-  <div class="welcome">
-    <h1 style="color:aliceblue">User, {{ userToLogIn.email }} already exists</h1>
-    <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="resetAllFlagsAndUser()">Back</button>
-  </div>
-</div>-->
-
-
-<!--Οθόνη παραμονής και ένδειξης ότι ο χρήστης είναι συνδεδεμένος μετά το Sign Up και Log In-->
-<!--<div *ngIf="afterSignUpOrLogInFlag && SuccessfullLoginSignUp && stayLoggedInFlag" class="container">
-  <div class="welcome">
-    <h1 style="color:aliceblue">You are logged as user {{ userToLogIn.email }}. You can view your comics and other details by selecting the other tabs</h1>
-  </div>
-  <button type="button" class="btn btn-danger" (click)="logOut()">Log Out</button>
-</div>-->
+      <form [formGroup]="myReactiveForm">
+        <div class="form-group">
+          <label for="exampleInputEmail1" style="display:block; color: aliceblue; text-align: center ">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" formControlName="Email">
+          <small id="emailHelp" class="form-text text-muted" style="color:aliceblue !important">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1" style="display: block; color: aliceblue; text-align: center">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="Password">
+        </div>
+        <div class="buttons">
+          <button *ngIf="signUpFlag" type="submit" class="btn btn-primary" style="color:aliceblue" (click)="signUpUser()">Sing me up</button>
+          <button *ngIf="logInFlag" type="submit" class="btn btn-primary" style="color:aliceblue">Log me in</button>
+        </div>
+      </form>
 
 
 
-<!--<button class="btn btn-danger" style="color:aliceblue">Log Out</button>-->
+      <div>
+        <button type="button" class="btn btn-dark" style="color:aliceblue" (click)="resetSingUpLoginFlag()">Back</button>
+      </div>
+    </div>-->
+    <!--Οθόνη welcome μετα το Sign Up και Log In-->
+    <!--<div *ngIf="userToLogIn.email && SuccessfullLoginSignUp && !stayLoggedInFlag" class="container">
+      <div class="welcome">
+        <h1 style="color:aliceblue">Welcome, {{ userToLogIn.email }}. You have successfully logged in.</h1>
+        <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="goToLoggedInUserMessage()">Continue</button>
+      </div>
+    </div>-->
+    <!--Οθόνη ενημέρωσης ότι χρήστης υπάρχει μετά το Sign Up και Log In-->
+    <!--<div *ngIf="userToLogIn.email && afterSignUpOrLogInFlag && !SuccessfullLoginSignUp" class="container">
+      <div class="welcome">
+        <h1 style="color:aliceblue">User, {{ userToLogIn.email }} already exists</h1>
+        <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="resetAllFlagsAndUser()">Back</button>
+      </div>
+    </div>-->
+    <!--Οθόνη παραμονής και ένδειξης ότι ο χρήστης είναι συνδεδεμένος μετά το Sign Up και Log In-->
+    <!--<div *ngIf="afterSignUpOrLogInFlag && SuccessfullLoginSignUp && stayLoggedInFlag" class="container">
+      <div class="welcome">
+        <h1 style="color:aliceblue">You are logged as user {{ userToLogIn.email }}. You can view your comics and other details by selecting the other tabs</h1>
+      </div>
+      <button type="button" class="btn btn-danger" (click)="logOut()">Log Out</button>
+    </div>-->
+    <!--<button class="btn btn-danger" style="color:aliceblue">Log Out</button>-->

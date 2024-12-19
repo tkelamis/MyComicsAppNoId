@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+  import { Component, Input } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ComicService } from '../../Services/comic.service';
 import { Comic } from '../../Shared/Models/Comic';
+import { UserService } from '../../Services/user.service';
+import { NavigationService } from '../../Services/navigation.service';
 
 @Component({
   selector: 'app-comic-table',
@@ -9,12 +11,24 @@ import { Comic } from '../../Shared/Models/Comic';
   styleUrl: './comic-table.component.css'
 })
 export class ComicTableComponent {
+  [x: string]: any;
   comics: Comic[] = [];
+  userObserve: string = "";
 
-  constructor(private comicService: ComicService, private snackBar: MatSnackBar) { }
+  constructor(private comicService: ComicService,
+    private snackBar: MatSnackBar,
+    private userService: UserService,
+    private navigationService: NavigationService
+  ) { }
 
   ngOnInit(): void {
     this.getAllComicsFromAPI();
+    
+    //add the user to the URL
+    if (typeof window !== 'undefined') {
+      this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
+    }
+    
   }
 
 

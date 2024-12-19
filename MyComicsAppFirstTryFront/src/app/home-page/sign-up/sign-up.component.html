@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="!SuccessfullLoginSignUp" class="container">
   <h1 style="color:aliceblue">Sign Up</h1>
 
   <form [formGroup]="myReactiveForm">
@@ -17,8 +17,10 @@
   </form>
 
   <div>
-    <button type="button" class="btn btn-dark" style="color:aliceblue" (click)="navigateToHome()">Back</button>
+    <button type="button" class="btn btn-dark" style="color:aliceblue" [routerLink]="['/home']">Back</button>
   </div>
 
 </div>
+
+<router-outlet></router-outlet>
 

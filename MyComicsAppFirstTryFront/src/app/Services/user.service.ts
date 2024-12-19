@@ -31,9 +31,9 @@ export class UserService {
     return this.httpService.post<User>(this.apiGetUrlForExisting, user, { observe: 'response' });
   }
 
-  user$ = this.userSubject.asObservable();
 
-  setUser(user: any) {
+  user$ = this.userSubject.asObservable();
+  setUserObservable(user: any) {
     this.userSubject.next(user);
   }
 
@@ -46,9 +46,21 @@ export class UserService {
     this.userSubject.next(null);
   }
 
-  /*retrieveSignedUpUserFromLocalStorage(name: string) {
-    var retrieved = localStorage.getItem(name);
+
+  userInLocalStorageExists(): boolean {
+    var retrieved = localStorage.getItem('loggedUser');
     if (retrieved) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  retrieveSignedUpUserFromLocalStorage() {
+    var retrieved = localStorage.getItem('loggedUser');
+    return retrieved;
+    /*if (retrieved) {
       try {
         var userObject = JSON.parse(retrieved);
         return userObject.email;
@@ -59,6 +71,6 @@ export class UserService {
     }
     else {
       console.log('No data found in local storage for key:', name)
-    }
-  }*/
+    }*/
+  }
 }

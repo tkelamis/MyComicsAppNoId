@@ -1,0 +1,14 @@
+<div *ngIf="!signedSuccessfullyAndContinue" class="container">
+  <div class="welcome">
+    <h1 style="color:aliceblue">Welcome {{userLoggedIn}}. You have successfully logged in.</h1>
+    <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="setsignedSuccessfullyAndContinue()">Continue</button>
+  </div>
+</div>
+
+<div *ngIf="signedSuccessfullyAndContinue" class="container">
+  <div class="welcome">
+    <h1 style="color:aliceblue">You are logged as user {{ userLoggedIn }}.</h1>
+    <p>You can view your comics and other details by selecting the other tabs</p>
+
+  </div>
+</div>

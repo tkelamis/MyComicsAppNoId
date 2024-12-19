@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { User } from '../Shared/Models/User';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserService } from '../Services/user.service';
 
 @Component({
@@ -8,14 +7,22 @@ import { UserService } from '../Services/user.service';
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-  userLoggedIn: boolean = false;
-  userName: string = "";
+  userLoggedIn: string | null = "";
+  userObserve: string = 'elanio';
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.userService.user$.subscribe((user) => {
-      this.userName = user;
-    })
+    /*this.userService.user$.subscribe((user => this.userObserve = user));
+    console.log(this.userObserve);
+    console.log("Im in layout")*/
+
+    /*if (typeof window !== 'undefined') {
+      if (localStorage.getItem('loggedUser')) {
+        this.userLoggedIn = localStorage.getItem('loggedUser');
+        console.log(this.userLoggedIn);
+      }
+    }*/
+
   }
 }

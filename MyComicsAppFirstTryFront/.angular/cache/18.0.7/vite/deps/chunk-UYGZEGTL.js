@@ -1056,8 +1056,10 @@ export {
   __asyncValues,
   isFunction,
   createErrorClass,
+  UnsubscriptionError,
   arrRemove,
   Subscription,
+  config,
   reportUnhandledError,
   noop,
   Subscriber,
@@ -1066,7 +1068,8 @@ export {
   identity,
   pipe,
   Observable,
+  ObjectUnsubscribedError,
   Subject,
   BehaviorSubject
 };
-//# sourceMappingURL=chunk-VFYO67JX.js.map
+//# sourceMappingURL=chunk-UYGZEGTL.js.map
