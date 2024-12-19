@@ -39,7 +39,14 @@ export class WelcomeAndStayLoggedComponent implements OnInit {
       });
       return userName;
     }*/
-
+    if (typeof window !== 'undefined') {
+      if (this.navigationService.loggedInUserToURLExists()) {
+        if (this.userService.userInLocalStorageExists()) {
+          this.userLoggedIn = this.userService.retrieveSignedUpUserFromLocalStorage();
+        }
+      }
+    }
+    
   }
 
   setsignedSuccessfullyAndContinue() {
