@@ -2,9 +2,10 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../Shared/Models/User';
 import { UserService } from '../Services/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { Router } from '@angular/router';
 import { NavigationService } from '../Services/navigation.service';
+import { filter, take } from 'rxjs';
 
 
 
@@ -41,26 +42,46 @@ export class HomePageComponent implements OnInit {
     if (typeof window !== 'undefined') {
       this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
 
-      if (this.navigationService.loggedInUserToURLExistsNoPipes()) {
-        this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
-        this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
-      }
+      this.router.events.pipe(
+        filter(event => event instanceof NavigationEnd),
+        take(1)
+      ).subscribe(() => {
+        console.log('Current URL before checking user:', this.router.url);
+        this.navigationService.loggedInUserToURLExists().subscribe(userInUrlExists => {
+          console.log('Does user exist in URL?', userInUrlExists);
+          if (userInUrlExists) {
+            this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
+            console.log('User found in URL, email retrieved:', this.userToLogIn.email);
+            this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email);
+          }
+          else {
+            console.error('User not found in URL');
+          }
+        })
+        })
 
+        
 
-      /*this.navigationService.loggedInUserToURLExists().subscribe(flag => {
-        if (flag) {
+        
+        /*if (this.navigationService.loggedInUserToURLExistsNoPipes()) {
           this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
           this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
-        }
-        else {
-        }
-      })*/
-    }
-  }
+        }*/
 
+
+        /*this.navigationService.loggedInUserToURLExists().subscribe(flag => {
+          if (flag) {
+            this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
+            this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
+          }
+          else {
+          }
+        })*/
+      }
+  }
   navigateToSignUpForm(): void {
     this.navigationService.navigateToSignUpForm();
-    
+
   }
 
   navigateToLogInForm(): void {

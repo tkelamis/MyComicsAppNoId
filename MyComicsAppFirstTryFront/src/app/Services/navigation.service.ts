@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserService } from './user.service';
 import { Observable } from 'rxjs/internal/Observable';
-import { map } from 'rxjs';
+import { map, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -36,24 +36,21 @@ export class NavigationService {
   }
 
   addLoggedInUserFromStorageIfExistsToURL() {
-
-
     let userEmail: string | null = null;
     if (this.userService.userInLocalStorageExists()) {
       userEmail = this.userService.retrieveSignedUpUserFromLocalStorage();
+      
 
-
-      this.route.queryParams.subscribe(params => {
-        this.router.navigate([], {
+      this.router.navigate([], {
           queryParams: { user: userEmail },
           queryParamsHandling: 'merge', // Keeps existing query params
-        });
-      })
+      });
     }
   }
 
   loggedInUserToURLExists(): Observable<boolean> {
     return this.route.queryParams.pipe(
+      take(1),
       map(user => {
         if (user['user']) {
           return true;
