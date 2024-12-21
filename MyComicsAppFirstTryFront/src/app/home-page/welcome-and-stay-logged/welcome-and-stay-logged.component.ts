@@ -11,45 +11,33 @@ import { NavigationService } from '../../Services/navigation.service';
 })
 export class WelcomeAndStayLoggedComponent implements OnInit {
   userLoggedIn: string | null = '';
-  signedSuccessfullyAndContinue: boolean = false;
   userObserve: string = '';
 
-  constructor(private route: ActivatedRoute,
+  constructor(
     private userService: UserService,
     private navigationService: NavigationService
   ) { }
 
   ngOnInit() {
-
-    /*if (typeof window !== 'undefined') {
-      this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
-
-      if (this.navigationService.loggedInUserToURLExists()) {
-        this.userLoggedIn = this.userService.retrieveSignedUpUserFromLocalStorage();
-        this.setsignedSuccessfullyAndContinue();
+    if (typeof window !== 'undefined') {
+      if (!this.userService.userInLocalStorageExists()) {
+        console.log("There is no logged in user registered in local storage ")
       }
       else {
-        this.signedSuccessfullyAndContinue = false;
-      }
-    }*/
-    /*getLoggedUserFromUrl(): string {
-      var userName = '';
-      this.route.queryParams.subscribe((userNameFromUrl) => {
-        userName = userNameFromUrl['user']
-      });
-      return userName;
-    }*/
-    if (typeof window !== 'undefined') {
-      if (this.navigationService.loggedInUserToURLExists()) {
-        if (this.userService.userInLocalStorageExists()) {
-          this.userLoggedIn = this.userService.retrieveSignedUpUserFromLocalStorage();
+        this.userLoggedIn = this.userService.retrieveSignedUpUserFromLocalStorage();
+        if (this.userLoggedIn) {
+          this.navigationService.addLoggedInUserToURL(this.userLoggedIn);
+        }
+        else {
+          console.log("No value returned from the key in local storage")
         }
       }
     }
-    
   }
 
-  setsignedSuccessfullyAndContinue() {
-    this.signedSuccessfullyAndContinue = true;
+  logOut() {
+    this.navigationService.navigateToHome();
+    this.userService.logOutUser();
   }
+
 }

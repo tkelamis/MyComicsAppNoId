@@ -17,13 +17,12 @@ import { ResponseHandlerService } from '../../Services/response-handler.service'
 export class SignUpComponent {
 
   userToLogIn: User = {};
-  SuccessfullLoginSignUp: boolean = false;
+  isDisabled: boolean = false;
 
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
     private navigationService: NavigationService,
-    private snackBar: MatSnackBar,
     private responseHandlerService: ResponseHandlerService
   ) { }
 
@@ -41,20 +40,17 @@ export class SignUpComponent {
     this.userToLogIn = this.createUserFromForm();
 
     this.sendUserToBackEnd(this.userToLogIn);
-
-    
-
   }
 
   sendUserToBackEnd(userToRegister: User): void {
-    this.userService.postUserDataToBackEnd(userToRegister).subscribe(
+    this.userService.signUpUserToDb(userToRegister).subscribe(
       (response: HttpResponse<User>) => {
         if (response.status === 200) {
           if (this.userToLogIn.email) {
+            this.isDisabled = true;
             this.userService.storeUserLoggedIn(this.userToLogIn);
             this.userService.setUserObservable(this.userService.retrieveSignedUpUserFromLocalStorage());
             this.responseHandlerService.handleSuccessForUserSignedUp(response, this.navigateToUserLoggedIn.bind(this, this.userToLogIn.email));
-            
           }
         }
       },

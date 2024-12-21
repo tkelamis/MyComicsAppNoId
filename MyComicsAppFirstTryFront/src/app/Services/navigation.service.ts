@@ -14,8 +14,6 @@ export class NavigationService {
     private route: ActivatedRoute
   ) { }
 
-
-
   navigateToHome(): void {
     this.router.navigate(['/home']);
   }
@@ -35,17 +33,11 @@ export class NavigationService {
     });
   }
 
-  addLoggedInUserFromStorageIfExistsToURL() {
-    let userEmail: string | null = null;
-    if (this.userService.userInLocalStorageExists()) {
-      userEmail = this.userService.retrieveSignedUpUserFromLocalStorage();
-      
-
-      this.router.navigate([], {
-          queryParams: { user: userEmail },
-          queryParamsHandling: 'merge', // Keeps existing query params
-      });
-    }
+  addLoggedInUserToURL(userName: string) {
+    this.router.navigate([], {
+      queryParams: { user: userName },
+      queryParamsHandling: 'merge'
+    });
   }
 
   loggedInUserToURLExists(): Observable<boolean> {
@@ -76,18 +68,3 @@ export class NavigationService {
     }
   }
 }
-
-
-
-    /*this.route.queryParams.subscribe(existingUserEmail => {
-      if (existingUserEmail['user'] !== userEmail) {
-        this.router.navigate([], {
-          queryParams: { user: userEmail },
-          queryParamsHandling: 'merge', // Keeps existing query params
-        });
-      }
-    })*/
-
-  
-
-  

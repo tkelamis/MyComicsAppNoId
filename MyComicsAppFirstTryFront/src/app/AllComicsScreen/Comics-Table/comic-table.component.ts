@@ -14,6 +14,7 @@ export class ComicTableComponent {
   [x: string]: any;
   comics: Comic[] = [];
   userObserve: string = "";
+  existingUserInLocalStorage: string | null = null;
 
   constructor(private comicService: ComicService,
     private snackBar: MatSnackBar,
@@ -26,7 +27,18 @@ export class ComicTableComponent {
     
     //add the user to the URL
     if (typeof window !== 'undefined') {
-      this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
+      if (!this.userService.userInLocalStorageExists()) {
+        console.log("There is no logged in user registered in local storage ")
+      }
+      else {
+        this.existingUserInLocalStorage = this.userService.retrieveSignedUpUserFromLocalStorage();
+        if (this.existingUserInLocalStorage) {
+          this.navigationService.addLoggedInUserToURL(this.existingUserInLocalStorage);
+        }
+        else {
+          console.log("No value returned from the key in local storage")
+        }
+      }
     }
     
   }

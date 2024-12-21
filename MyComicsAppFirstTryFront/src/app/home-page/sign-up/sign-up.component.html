@@ -1,24 +1,28 @@
-<div *ngIf="!SuccessfullLoginSignUp" class="container">
-  <h1 style="color:aliceblue">Sign Up</h1>
+<div class="container">
+  <div class="form-container">
+    <h1 style="color:aliceblue">Sign Up</h1>
 
-  <form [formGroup]="myReactiveForm">
-    <div class="form-group">
-      <label for="exampleInputEmail1" style="display:block; color: aliceblue; text-align: center ">Email address</label>
-      <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" formControlName="Email">
-      <small id="emailHelp" class="form-text text-muted" style="color:aliceblue !important">We'll never share your email with anyone else.</small>
-    </div>
-    <div class="form-group">
-      <label for="exampleInputPassword1" style="display: block; color: aliceblue; text-align: center">Password</label>
-      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="Password">
-    </div>
-    <div class="buttons">
-      <button type="submit" class="btn btn-primary" style="color:aliceblue" (click)="signUpUser()">Sing me up</button>
-    </div>
-  </form>
+    <form [formGroup]="myReactiveForm">
+      <div class="form-group">
+        <label for="exampleInputEmail1" style="display:block; color: aliceblue; text-align: center ">Email address</label>
+        <input type="email" class="form-control custom-width" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" formControlName="Email">
+        <!--<small id="emailHelp" class="form-text text-muted" style="color:aliceblue !important">We'll never share your email with anyone else.</small>-->
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1" style="display: block; color: aliceblue; text-align: center">Password</label>
+        <input type="password" class="form-control custom-width" id="exampleInputPassword1" placeholder="Password" formControlName="Password">
+      </div>
+      <div class="buttons">
+        <button [disabled]="isDisabled" type="submit" class="btn btn-primary" style="color:aliceblue" (click)="signUpUser()">Sing me up</button>
+      </div>
+    </form>
 
-  <div>
-    <button type="button" class="btn btn-dark" style="color:aliceblue" [routerLink]="['/home']">Back</button>
+    <div>
+      <button [disabled]="isDisabled" type="button" class="btn btn-dark" style="color:aliceblue" [routerLink]="['/home']">Back</button>
+    </div>
+
   </div>
+  
 
 </div>
 

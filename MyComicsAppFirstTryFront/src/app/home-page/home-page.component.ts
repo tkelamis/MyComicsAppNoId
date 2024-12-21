@@ -40,13 +40,24 @@ export class HomePageComponent implements OnInit {
     this.signUpLogInClickFlag = false;
 
     if (typeof window !== 'undefined') {
-      this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
+
+      if (!this.userService.userInLocalStorageExists()) {
+        console.log("There is no logged in user registered in local storage ")
+      }
+      else {
+        this.existingUserInLocalStorage = this.userService.retrieveSignedUpUserFromLocalStorage();
+        if (this.existingUserInLocalStorage) {
+          this.navigationService.addLoggedInUserToURL(this.existingUserInLocalStorage);
+        }
+        else {
+          console.log("No value returned from the key in local storage")
+        }
+      }
 
       this.router.events.pipe(
         filter(event => event instanceof NavigationEnd),
         take(1)
       ).subscribe(() => {
-        console.log('Current URL before checking user:', this.router.url);
         this.navigationService.loggedInUserToURLExists().subscribe(userInUrlExists => {
           console.log('Does user exist in URL?', userInUrlExists);
           if (userInUrlExists) {
@@ -59,24 +70,6 @@ export class HomePageComponent implements OnInit {
           }
         })
         })
-
-        
-
-        
-        /*if (this.navigationService.loggedInUserToURLExistsNoPipes()) {
-          this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
-          this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
-        }*/
-
-
-        /*this.navigationService.loggedInUserToURLExists().subscribe(flag => {
-          if (flag) {
-            this.userToLogIn.email = this.userService.retrieveSignedUpUserFromLocalStorage();
-            this.navigationService.navigateToLoggedInScreen(this.userToLogIn.email)
-          }
-          else {
-          }
-        })*/
       }
   }
   navigateToSignUpForm(): void {

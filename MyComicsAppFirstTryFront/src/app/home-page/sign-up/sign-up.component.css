@@ -12,6 +12,18 @@ body, html {
   gap: 2rem;
 }
 
+.form-container {
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  width: 30vh;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  background-color: dodgerblue;
+  border-radius: 15px;
+}
+
 .buttons {
   display: flex;
   gap: 3rem;
@@ -52,4 +64,8 @@ body, html {
   padding: 3rem;
   background-color: #5a76bf;
   border-radius: 15px;
+}
+
+.custom-width {
+  width: 100%;
 }

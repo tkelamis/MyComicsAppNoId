@@ -12,25 +12,23 @@ import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 })
 export class UserService {
 
-  private apiGetUrl = 'https://localhost:7206/api/User';
-  private apiGetUrlForExisting = 'https://localhost:7206/api/existing';
+  private apiGetUrl = 'https://localhost:7206/api/User/signUp';
+  private apiGetUrlForExisting = 'https://localhost:7206/api/User/logIn';
 
   user?: User;
   userName: string = "";
   private userSubject = new BehaviorSubject<any>(null);
-  private flagSubject = new BehaviorSubject<any>(null);
-
   
   constructor(private httpService: HttpClient) { }
 
-  postUserDataToBackEnd(user: User): Observable<HttpResponse<any>> {
+  signUpUserToDb(user: User): Observable<HttpResponse<any>> {
     return this.httpService.post<User>(this.apiGetUrl, user, { observe: 'response' });
   }
 
-  postUserDataToBackEndToCheckExisting(user: User): Observable<HttpResponse<any>> {
+  logInUserToDb(user: User): Observable<HttpResponse<any>> {
+    console.log(user);
     return this.httpService.post<User>(this.apiGetUrlForExisting, user, { observe: 'response' });
   }
-
 
   user$ = this.userSubject.asObservable();
   setUserObservable(user: any) {
@@ -38,14 +36,14 @@ export class UserService {
   }
 
   storeUserLoggedIn(user: User): void {
-    localStorage.setItem('loggedUser', JSON.stringify(user.email));
+    if (user.email)
+    localStorage.setItem('loggedUser', user.email);
   }
 
   logOutUser() {
     localStorage.removeItem('loggedUser');
     this.userSubject.next(null);
   }
-
 
   userInLocalStorageExists(): boolean {
     var retrieved = localStorage.getItem('loggedUser');
@@ -60,17 +58,5 @@ export class UserService {
   retrieveSignedUpUserFromLocalStorage() {
     var retrieved = localStorage.getItem('loggedUser');
     return retrieved;
-    /*if (retrieved) {
-      try {
-        var userObject = JSON.parse(retrieved);
-        return userObject.email;
-      }
-      catch (error) {
-        console.error('Error parsing JSON from local storage:', error);
-      }
-    }
-    else {
-      console.log('No data found in local storage for key:', name)
-    }*/
   }
 }

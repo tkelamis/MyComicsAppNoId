@@ -74,4 +74,37 @@ export class ResponseHandlerService {
       verticalPosition: 'top'
     });
   }
+
+  handleSuccessForUserLogIn(response: HttpResponse<any>, callback: (user: string) => void): void {
+    if (response.status >= 200 && response.status < 300) {
+      const user = response.body?.email || 'the item';
+      var theSnackBar = this.snackBar.open(`User ${response.body?.email} successfully logged in`, "Close",
+        {
+          horizontalPosition: 'center',
+          verticalPosition: 'top'
+        });
+      theSnackBar.onAction().subscribe(() => {
+        callback(user);
+      });
+    }
+  }
+
+  handleErrorForUserLogIn(error: HttpErrorResponse): void {
+    let errorMessage = 'An error occurred.';
+    if (error.status === 400 && error.error?.errors) {
+      const errorMessages = Object.values(error.error.errors).flat().join(' ');
+      errorMessage = `Validation errors: ${errorMessages}`;
+    } else if (error.status === 409) {
+      errorMessage = 'Conflict: Resource already exists.';
+    } else if (error.status === 404) {
+      errorMessage = 'User not found.';
+    } else if (error.status === 500) {
+      errorMessage = 'Server error. Please try again later.';
+    }
+    this.snackBar.open(errorMessage, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
+  }
 }

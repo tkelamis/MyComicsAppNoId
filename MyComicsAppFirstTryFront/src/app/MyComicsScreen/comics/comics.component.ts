@@ -14,6 +14,7 @@ export class ComicsComponent implements OnInit {
   comics: Comic[] = [];
   selectedComic?: Comic;
   userObserve: string = '';
+  existingUserInLocalStorage: string | null = null;
 
   constructor(private comicService: ComicService,
     private router: Router,
@@ -33,7 +34,18 @@ export class ComicsComponent implements OnInit {
     this.navigationService.addLoggedInUserToURL(this.userObserve);*/
 
     if (typeof window !== 'undefined') {
-      this.navigationService.addLoggedInUserFromStorageIfExistsToURL();
+      if (!this.userService.userInLocalStorageExists()) {
+        console.log("There is no logged in user registered in local storage ")
+      }
+      else {
+        this.existingUserInLocalStorage = this.userService.retrieveSignedUpUserFromLocalStorage();
+        if (this.existingUserInLocalStorage) {
+          this.navigationService.addLoggedInUserToURL(this.existingUserInLocalStorage);
+        }
+        else {
+          console.log("No value returned from the key in local storage")
+        }
+      }
     }
   }
 
