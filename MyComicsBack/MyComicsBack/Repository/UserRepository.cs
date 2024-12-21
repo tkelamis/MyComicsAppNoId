@@ -34,5 +34,18 @@ namespace MyComicsBack.Repository
                 return false;
             }
         }
+        public bool PasswordExists(User user)
+        {
+
+            User existingPassword = _context.Users.FirstOrDefault(a => a.Password == user.Password);
+            if (existingPassword != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace MyComicsBack.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("signUp")]
         public async Task<IActionResult> PostUser([FromBody] UserDAO userDao)
         {
 
@@ -45,7 +45,7 @@ namespace MyComicsBack.Controllers
             }
         }
 
-        [HttpPost ("existing")]
+        [HttpPost ("logIn")]
         public async Task<IActionResult> PostUserExisting([FromBody] UserDAO userDao)
         {
 
@@ -56,13 +56,21 @@ namespace MyComicsBack.Controllers
 
             User finalUserToSendToDatabase = _userDAOMapper.DAOMapping(userDao);
 
-            if (_userRepository.UserExists(finalUserToSendToDatabase))
+            if (!_userRepository.UserExists(finalUserToSendToDatabase))
             {
-                return Conflict(new { message = "User already exists." });
+                return NotFound(new { message = "User not found." });
             }
             else
             {
-                return Ok(finalUserToSendToDatabase);
+                if (_userRepository.PasswordExists(finalUserToSendToDatabase))
+                {
+                    return Ok(finalUserToSendToDatabase);
+                }
+                else
+                {
+                    return NotFound(new { message = "Wrong Password" });
+                }
+                    
             }
         }
     }

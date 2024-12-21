@@ -7,5 +7,7 @@ namespace MyComicsBack.Interfaces
         bool Add(User user);
 
         public bool UserExists(User user);
+
+        public bool PasswordExists(User user);
     }
 }
