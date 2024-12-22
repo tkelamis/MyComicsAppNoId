@@ -11,7 +11,6 @@ namespace MyComicsBack.Models
 
         public string Password { get; set; }
 
-        [ForeignKey(nameof(UserRole))]
         public int UserRoleId { get; set; }
 
         public UserRole UserRole{ get; set; }

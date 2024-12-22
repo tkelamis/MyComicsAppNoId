@@ -1,4 +1,5 @@
-﻿using MyComicsBack.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MyComicsBack.Data;
 using MyComicsBack.Interfaces;
 using MyComicsBack.Models;
 
@@ -13,6 +14,13 @@ namespace MyComicsBack.Repository
         {
             _context = context;
             _unitOfWork = unitOfWork;
+        }
+
+        public async Task<IEnumerable<User>> GetAll()
+        {
+            return await _context.Users
+            .Include(u => u.UserRole)
+            .ToListAsync();
         }
 
         public bool Add(User user)

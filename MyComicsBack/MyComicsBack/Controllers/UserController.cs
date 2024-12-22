@@ -5,6 +5,7 @@ using MyComicsBack.Models;
 using MyComicsBack.Repository;
 using MyComicsBack.DAO;
 using MyComicsBack.DAOMapper;
+using MyComicsBack.Mappers;
 
 namespace MyComicsBack.Controllers
 {
@@ -13,14 +14,26 @@ namespace MyComicsBack.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly IDAOMapper<UserDAO, User> _userDAOMapper;
+        private readonly UserDaoMapper _userDAOMapper;
 
-        public UserController(IUserRepository userRepository, IDAOMapper<UserDAO, User> userDaoMapper)
+        public UserController(IUserRepository userRepository, UserDaoMapper userDaoMapper)
         {
             _userRepository = userRepository;
             _userDAOMapper = userDaoMapper;
         }
 
+        [HttpGet("Users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userRepository.GetAll();
+            if (users == null)
+            {
+                return NotFound("No users found.");
+            }
+            var usersDAOList = _userDAOMapper.DAOListMapping(users);
+
+            return Ok(usersDAOList);
+        }
 
         [HttpPost("signUp")]
         public async Task<IActionResult> PostUser([FromBody] UserDAO userDao)

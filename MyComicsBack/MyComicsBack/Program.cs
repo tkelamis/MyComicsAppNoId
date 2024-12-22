@@ -16,7 +16,7 @@ builder.Services.AddScoped<IComicRepository, ComicRepository>();
 builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IDAOMapper<UserDAO, User>, UserDaoMapper>();
+builder.Services.AddScoped<UserDaoMapper, UserDaoMapper>();
 builder.Services.AddScoped<ComicMapper>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
