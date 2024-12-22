@@ -18,7 +18,7 @@ export class SignUpComponent {
 
   userToLogIn: User = {};
   isDisabled: boolean = false;
-
+  submittedForm: boolean = false;
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
@@ -28,18 +28,19 @@ export class SignUpComponent {
 
 
   myReactiveForm = this.formBuilder.group({
-    Email: ['', [Validators.required]],
-    Password: [''],
-    UserRole: [''],
-    isAdminChecked: [false, Validators.required],
-    isUserChecked: [false, Validators.required]
+    Email: ['', [Validators.required, Validators.email]],
+    Password: ['', [Validators.required, Validators.minLength(6)]],
+    UserRole: ['']
   })
 
 
   signUpUser(): void {
-    this.userToLogIn = this.createUserFromForm();
+    const userFromForm = this.createUserFromForm();
+    if (userFromForm) {
+      this.userToLogIn = userFromForm;
 
-    this.sendUserToBackEnd(this.userToLogIn);
+      this.sendUserToBackEnd(this.userToLogIn);
+    }
   }
 
   sendUserToBackEnd(userToRegister: User): void {
@@ -60,11 +61,18 @@ export class SignUpComponent {
     )
   }
 
-  createUserFromForm(): User {
-    return {
-      email: this.myReactiveForm.value.Email,
-      password: this.myReactiveForm.value.Password,
-      role: "User"
+  createUserFromForm(): User | null {
+    if (this.myReactiveForm.invalid) {
+      console.log("Form submitted:", this.myReactiveForm.value);
+      this.submittedForm = true;
+      return null;
+    }
+    else {
+      return {
+        email: this.myReactiveForm.value.Email,
+        password: this.myReactiveForm.value.Password,
+        role: "User"
+      }
     }
   }
 

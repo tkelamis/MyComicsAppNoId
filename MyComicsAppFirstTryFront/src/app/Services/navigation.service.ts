@@ -67,4 +67,8 @@ export class NavigationService {
       return false;
     }
   }
+
+  navigateToAdminHome() {
+    this.router.navigate(['admin']);
+  }
 }

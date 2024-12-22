@@ -19,7 +19,7 @@ export class UserService {
   userName: string = "";
   private userSubject = new BehaviorSubject<any>(null);
   
-  constructor(private httpService: HttpClient) { }
+  constructor(private httpService: HttpClient,) { }
 
   signUpUserToDb(user: User): Observable<HttpResponse<any>> {
     return this.httpService.post<User>(this.apiGetUrl, user, { observe: 'response' });

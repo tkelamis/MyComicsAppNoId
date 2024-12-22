@@ -20,8 +20,9 @@ body, html {
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  background-color: dodgerblue;
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
+  padding: 1rem;
 }
 
 .buttons {
@@ -68,4 +69,12 @@ body, html {
 
 .custom-width {
   width: 100%;
+}
+
+.form-control {
+  width: 100% !important
+}
+
+#content > app-sign-up > div > div > form {
+  width: 100% !important
 }

@@ -27,9 +27,7 @@ export class LogInComponent {
   myReactiveForm = this.formBuilder.group({
     Email: ['', [Validators.required, Validators.email]],
     Password: ['', [Validators.required, Validators.minLength(6)]],
-    UserRole: [''],
-    isAdminChecked: [false, Validators.required],
-    isUserChecked: [false, Validators.required]
+    UserRole: ['']
   })
 
   logInUser(): void {

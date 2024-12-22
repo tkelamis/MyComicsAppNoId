@@ -2,15 +2,30 @@
   <div class="form-container">
     <h1 style="color:aliceblue">Sign Up</h1>
 
-    <form [formGroup]="myReactiveForm">
+    <form [formGroup]="myReactiveForm" style="width:100%">
       <div class="form-group">
         <label for="exampleInputEmail1" style="display:block; color: aliceblue; text-align: center ">Email address</label>
-        <input type="email" class="form-control custom-width" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" formControlName="Email">
-        <!--<small id="emailHelp" class="form-text text-muted" style="color:aliceblue !important">We'll never share your email with anyone else.</small>-->
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+               placeholder="Enter email"
+               formControlName="Email"
+               [class.is-invalid]="submittedForm && myReactiveForm.get('Email')?.invalid"
+               [class.is-valid]="myReactiveForm.get('Email')?.valid">
+        <div *ngIf="submittedForm && myReactiveForm.get('Email')?.hasError('required')" class="invalid-feedback" style="color: red"><p>Email is required</p></div>
+        <div *ngIf="myReactiveForm.get('Email')?.hasError('email')" class="invalid-feedback" style="color: red"><p>Email is wrong</p></div>
+        <div *ngIf="myReactiveForm.get('Email')?.valid" class="valid-feedback" style="color: green"><p>Email is ok</p></div>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1" style="display: block; color: aliceblue; text-align: center">Password</label>
-        <input type="password" class="form-control custom-width" id="exampleInputPassword1" placeholder="Password" formControlName="Password">
+        <input type="password" class="form-control"
+               id="exampleInputPassword1"
+               placeholder="Password"
+               formControlName="Password"
+               [class.is-invalid]="(myReactiveForm.get('Password')?.invalid && (submittedForm || myReactiveForm.get('Password')?.touched))"
+               [class.is-valid]="myReactiveForm.get('Password')?.valid">
+        <div *ngIf="(myReactiveForm.get('Password')?.touched || submittedForm) && myReactiveForm.get('Password')?.hasError('minlength')" class="invalid-feedback" style="color: red"><p>Password must have more than 6 characters</p></div>
+        <div *ngIf="submittedForm && myReactiveForm.get('Password')?.hasError('required')" class="invalid-feedback" style="color: red"><p>Password is required</p></div>
+
+        <div *ngIf="myReactiveForm.get('Password')?.valid" class="valid-feedback" style="color: green"><p>Password is ok</p></div>
       </div>
       <div class="buttons">
         <button [disabled]="isDisabled" type="submit" class="btn btn-primary" style="color:aliceblue" (click)="signUpUser()">Sing me up</button>

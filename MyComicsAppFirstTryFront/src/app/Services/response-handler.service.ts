@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { User } from '../Shared/Models/User';
+import { response } from 'express';
 
 @Injectable({
   providedIn: 'root'
@@ -97,7 +98,7 @@ export class ResponseHandlerService {
     } else if (error.status === 409) {
       errorMessage = 'Conflict: Resource already exists.';
     } else if (error.status === 404) {
-      errorMessage = 'User not found.';
+      errorMessage = error.error.message;;
     } else if (error.status === 500) {
       errorMessage = 'Server error. Please try again later.';
     }

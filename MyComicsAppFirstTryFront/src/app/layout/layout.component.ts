@@ -13,16 +13,17 @@ export class LayoutComponent {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    /*this.userService.user$.subscribe((user => this.userObserve = user));
-    console.log(this.userObserve);
-    console.log("Im in layout")*/
+    if (typeof window !== 'undefined') {
+      if (this.userService.userInLocalStorageExists()) {
+        this.userService.setUserObservable(this.userService.retrieveSignedUpUserFromLocalStorage());
+      };
+    }
+    
+    
 
-    /*if (typeof window !== 'undefined') {
-      if (localStorage.getItem('loggedUser')) {
-        this.userLoggedIn = localStorage.getItem('loggedUser');
-        console.log(this.userLoggedIn);
-      }
-    }*/
+    this.userService.user$.subscribe(userValue => {
+      this.userObserve = userValue;
+    })
 
   }
 }

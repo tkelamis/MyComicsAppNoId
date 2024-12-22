@@ -10,6 +10,7 @@ import { DeleteComicComponent } from './AllComicsScreen/Comics-Table/Delete-comi
 import { SignUpComponent } from './home-page/sign-up/sign-up.component';
 import { LogInComponent } from './home-page/log-in/log-in.component';
 import { WelcomeAndStayLoggedComponent } from './home-page/welcome-and-stay-logged/welcome-and-stay-logged.component';
+import { AdminPanelComponent } from './AdminPanel/admin-panel/admin-panel.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,8 @@ const routes: Routes = [
       { path: 'home/addComic', component: AddComicComponent },
       { path: 'comic', component: ComicsComponent },
       { path: 'comic/:Id', component: ComicDetailsComponent },
-      { path: 'comic_list', component: ComicTableComponent }
+      { path: 'comic_list', component: ComicTableComponent },
+      { path: 'admin', component: AdminPanelComponent }
     ]
   }
 ];

@@ -18,6 +18,8 @@ import { DeleteComicComponent } from './AllComicsScreen/Comics-Table/Delete-comi
 import { AddComicToMyComicsComponent } from './AllComicsScreen/Comics-Table/add-comic-to-my-comics/add-comic-to-my-comics.component';
 import { LogInComponent } from './home-page/log-in/log-in.component';
 import { WelcomeAndStayLoggedComponent } from './home-page/welcome-and-stay-logged/welcome-and-stay-logged.component';
+import { AdminPanelComponent } from './AdminPanel/admin-panel/admin-panel.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { WelcomeAndStayLoggedComponent } from './home-page/welcome-and-stay-logg
     AddComicToMyComicsComponent,
     SignUpComponent,
     LogInComponent,
-    WelcomeAndStayLoggedComponent
+    WelcomeAndStayLoggedComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { WelcomeAndStayLoggedComponent } from './home-page/welcome-and-stay-logg
     HttpClientModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [
 

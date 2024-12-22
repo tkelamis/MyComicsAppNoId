@@ -1,7 +1,20 @@
-<div class="container">
+<div *ngIf="!logOutButtonClicked" class="container">
   <div class="welcome">
     <h1 style="color:aliceblue">You are logged as user {{ userLoggedIn }}.</h1>
     <p>You can view your comics and other details by selecting the other tabs</p>
   </div>
-  <button type="button" class="btn btn-danger" (click)="logOut()">Log Out</button>
+  <button type="button" class="btn btn-danger" (click)="logOutClicked()">Log Out</button>
 </div>
+<div *ngIf="logOutButtonClicked" class="container">
+  <div class="welcome">
+
+    <p>Are you sure you want to log out?</p>
+    <div class="logout-confirmation-buttons">
+      <button type="button" class="btn btn-danger" (click)="logOut()">Yes</button>
+      <button type="button" class="btn btn-danger" (click)="stayLoggedIn()">No</button>
+    </div>
+    
+  </div>
+  
+</div>
+

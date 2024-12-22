@@ -9,14 +9,18 @@
       <li><a routerLink="/home"><i class="zmdi zmdi-view-dashboard"></i> Home</a></li>
       <li><a routerLink="/comic_list"><i class="zmdi zmdi-widgets"></i>All Comics</a></li>
       <li><a routerLink="/comic"><i class="zmdi zmdi-link"></i> MyComics</a></li>
+      <li><a routerLink="/admin"><i class="zmdi zmdi-link"></i> Admin</a></li>
     </ul>
   </div>
   <!-- Content -->
 
   <div id="content">
     <div class="user_logged">
-      <div class="user_name">
-        <h1>{{userLoggedIn}}</h1>
+      <div *ngIf="userObserve" class="user_name">
+        <h3>You are currently logged in as {{userObserve}}</h3>
+      </div>
+      <div *ngIf="!userObserve" class="user_name">
+        <h3>You are not logged in!!</h3>
       </div>
     </div>
 
